@@ -26,9 +26,9 @@ log_msg "Iniciando Watchdog do Proxy TLS 1.3..."
 while true; do
     # Verifica se o processo já está rodando.
     # No QNX/BB10, 'pidof' costuma estar disponível. Caso não esteja,
-    # uma alternativa segura é usar 'ps -A' filtrando com grep
+    # uma alternativa segura é usar 'ps -e' filtrando com grep
     # (ignorando o próprio grep na busca).
-    if ! ps -A | grep -v grep | grep -q "$PROXY_NAME"; then
+    if ! ps -e | grep -v grep | grep -q "$PROXY_NAME"; then
         log_msg "AVISO: Instancia do $PROXY_NAME nao encontrada. Iniciando processo em background."
 
         # Inicia o proxy em background, redirecionando saída de erro e padrão para /dev/null
