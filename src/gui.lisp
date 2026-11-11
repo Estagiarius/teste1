@@ -145,19 +145,26 @@
                                                        :command (lambda ()
                                                                   (let* ((nome (text entry-aluno-nome))
                                                                          (mat (text entry-mat))
-                                                                         ;; Parseia o ID da turma de texto para número. Se falhar usa 0.
+                                                                         ;; Parseia o ID da turma de texto para número.
                                                                          (tid-texto (text entry-tid))
-                                                                         (tid (or (parse-integer tid-texto :junk-allowed t) 0)))
-                                                                    ;; Chama a função do CRUD para Alunos
-                                                                    (handler-case
-                                                                        (progn
-                                                                          (criar-aluno nome mat tid)
-                                                                          (listbox-append lista-gui (format nil "Aluno: ~A (Mat: ~A) -> Turma ID: ~A" nome mat tid))
-                                                                          (setf (text entry-aluno-nome) "")
-                                                                          (setf (text entry-mat) "")
-                                                                          (setf (text entry-tid) ""))
-                                                                      (error (e)
-                                                                        (format t "Erro ao salvar aluno (Matricula duplicada ou turma nao existe).~%"))))))))
+                                                                         (tid (parse-integer tid-texto :junk-allowed t)))
+
+                                                                    (if (null tid)
+                                                                        ;; Se o usuário não digitou um número válido, mostramos um popup visual de erro
+                                                                        (message-box "Erro" "Por favor, digite um número válido para o ID da Turma." "ok" "error")
+
+                                                                        ;; Caso contrário, tenta inserir no banco
+                                                                        (handler-case
+                                                                            (progn
+                                                                              (criar-aluno nome mat tid)
+                                                                              (listbox-append lista-gui (format nil "Aluno: ~A (Mat: ~A) -> Turma ID: ~A" nome mat tid))
+                                                                              (setf (text entry-aluno-nome) "")
+                                                                              (setf (text entry-mat) "")
+                                                                              (setf (text entry-tid) ""))
+                                                                          ;; Se a chave estrangeira (turma não existe) ou a matrícula for duplicada falhar
+                                                                          (error (e)
+                                                                            (declare (ignore e))
+                                                                            (message-box "Falha no Cadastro" "Não foi possível salvar o aluno. Verifique se a matrícula já existe ou se o ID da Turma está correto." "ok" "error")))))))))
                   (pack btn-salvar-aluno :side :left :padx 15)))))))
 
       ;; --- CONTEÚDO DA ABA 3: HORÁRIOS ---
