@@ -18,7 +18,19 @@
 #include "mbedtls/entropy.h"
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/error.h"
+#include <mutex>
 #include "mbedtls/debug.h"
+
+// Global entropy and DRBG contexts (thread-safe on MbedTLS 2.x/3.x if properly seeded or mutexed natively)
+mbedtls_entropy_context global_entropy;
+mbedtls_ctr_drbg_context global_ctr_drbg;
+std::mutex drbg_mutex;
+
+// Wrapper for DRBG generation to be thread-safe
+int thread_safe_drbg_random(void *p_rng, unsigned char *output, size_t output_len) {
+    std::lock_guard<std::mutex> lock(drbg_mutex);
+    return mbedtls_ctr_drbg_random(p_rng, output, output_len);
+}
 
 // Helper function to rewrite HTTP request and extract host
 void process_http_request(std::string& request, std::string& host) {
@@ -69,16 +81,12 @@ void process_http_request(std::string& request, std::string& host) {
 
 void handle_client(int client_fd) {
     mbedtls_net_context server_fd;
-    mbedtls_entropy_context entropy;
-    mbedtls_ctr_drbg_context ctr_drbg;
     mbedtls_ssl_context ssl;
     mbedtls_ssl_config conf;
 
     mbedtls_net_init(&server_fd);
     mbedtls_ssl_init(&ssl);
     mbedtls_ssl_config_init(&conf);
-    mbedtls_ctr_drbg_init(&ctr_drbg);
-    mbedtls_entropy_init(&entropy);
 
     bool ssl_setup_done = false;
 
@@ -89,29 +97,34 @@ void handle_client(int client_fd) {
         mbedtls_net_free(&server_fd);
         mbedtls_ssl_free(&ssl);
         mbedtls_ssl_config_free(&conf);
-        mbedtls_ctr_drbg_free(&ctr_drbg);
-        mbedtls_entropy_free(&entropy);
         close(client_fd);
     };
-
-    const char *pers = "proxy_tls13";
-    if (mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
-                              (const unsigned char *)pers, strlen(pers)) != 0) {
-        cleanup();
-        return;
-    }
 
     char buffer[8192];
     memset(buffer, 0, sizeof(buffer));
 
-    // Read the first HTTP request
-    int bytes_read = read(client_fd, buffer, sizeof(buffer) - 1);
-    if (bytes_read <= 0) {
-        cleanup();
-        return;
-    }
+    // Read the first HTTP request (support fragmented reading)
+    std::string request;
+    int bytes_read;
 
-    std::string request(buffer, bytes_read);
+    struct timeval tv;
+    tv.tv_sec = 5; // Initial 5 sec timeout to wait for HTTP header
+    tv.tv_usec = 0;
+    setsockopt(client_fd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+
+    while (true) {
+        bytes_read = read(client_fd, buffer, sizeof(buffer) - 1);
+        if (bytes_read > 0) {
+            request.append(buffer, bytes_read);
+            if (request.find("\r\n\r\n") != std::string::npos || request.find("\n\n") != std::string::npos) {
+                break; // Header fully received
+            }
+            if (request.length() > 65536) break; // Prevent memory exhaustion
+        } else if (bytes_read <= 0) {
+            cleanup();
+            return;
+        }
+    }
     std::string host;
     process_http_request(request, host);
 
@@ -134,7 +147,7 @@ void handle_client(int client_fd) {
     }
 
     mbedtls_ssl_conf_authmode(&conf, MBEDTLS_SSL_VERIFY_NONE); // Optional: verify server cert for higher security
-    mbedtls_ssl_conf_rng(&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
+    mbedtls_ssl_conf_rng(&conf, thread_safe_drbg_random, &global_ctr_drbg);
 
 #if defined(MBEDTLS_SSL_PROTO_TLS1_3)
     // Force TLS 1.3 if mbedtls version supports it natively
@@ -219,10 +232,13 @@ void handle_client(int client_fd) {
                 int written = 0;
                 while (written < len) {
                     ret = mbedtls_ssl_write(&ssl, (const unsigned char*)(buffer + written), len - written);
-                    if (ret <= 0) {
+                    if (ret > 0) {
+                        written += ret;
+                    } else if (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE) {
+                        // Needs to wait for network availability, loop inside
+                    } else {
                         goto exit_loop;
                     }
-                    written += ret;
                 }
             } else if (len <= 0) {
                 break; // Client disconnected
@@ -236,6 +252,16 @@ exit_loop:
 
 int main() {
     signal(SIGPIPE, SIG_IGN);
+
+    // Initialize Global RNG safely (CPU optimization)
+    mbedtls_entropy_init(&global_entropy);
+    mbedtls_ctr_drbg_init(&global_ctr_drbg);
+    const char *pers = "proxy_tls13_daemon";
+    if (mbedtls_ctr_drbg_seed(&global_ctr_drbg, mbedtls_entropy_func, &global_entropy,
+                              (const unsigned char *)pers, strlen(pers)) != 0) {
+        std::cerr << "Failed to seed global RNG." << std::endl;
+        return 1;
+    }
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd == -1) {
@@ -276,8 +302,9 @@ int main() {
         int client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
 
         if (client_fd >= 0) {
-            // Protect against select() FD_SETSIZE limitations which can cause buffer overruns
-            if (client_fd >= FD_SETSIZE) {
+            // Protect against select() FD_SETSIZE limitations.
+            // Subtract 1 because handle_client will open an external server socket.
+            if (client_fd >= FD_SETSIZE - 1) {
                 std::cerr << "Max connections reached, dropping client." << std::endl;
                 close(client_fd);
             } else {
