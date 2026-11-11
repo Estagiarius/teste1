@@ -8,6 +8,7 @@
   ;; Importa a lógica do banco de dados (para inicializá-lo, se necessário) e as funções CRUD.
   (:import-from #:profgent/db #:init-db)
   (:import-from #:profgent/crud #:listar-turmas)
+  (:import-from #:profgent/ai #:processar-comando-ia)
   ;; Exporta a função principal para iniciar a aplicação visual.
   (:export #:iniciar-app))
 
@@ -32,45 +33,79 @@
     ;; Configura o título da janela principal
     (wm-title *tk* "ProfGent - Sistema de Gerenciamento Escolar")
 
-    ;; 1. Criação do "Frame" principal
-    ;; O Frame é como uma "caixa" ou contêiner invisível na tela que usamos para organizar os elementos.
-    (let* ((main-frame (make-instance 'frame)))
+    ;; O gerenciador de geometria da janela principal.
+    (wm-geometry *tk* "800x600")
 
-      ;; O 'pack' é o gerenciador de layout do Tk. Ao empacotar o frame,
-      ;; dizemos para ele ocupar espaço na janela.
-      (pack main-frame :fill :both :expand t)
+    ;; 1. Criação de um NoteBook (Sistema de Abas)
+    ;; O NoteBook permite separar os diferentes módulos do sistema em abas,
+    ;; organizando a Fase 2 (Design de Sistema).
+    (let* ((notebook (make-instance 'notebook))
 
-      ;; 2. Rótulo (Label) de boas-vindas
-      ;; Criamos um texto que será exibido no topo da tela.
-      (let ((lbl-titulo (make-instance 'label
-                                       :master main-frame
-                                       :text "Bem-vindo ao ProfGent - Fase 1 (Cascata)")))
-        ;; O 'pack' empacota esse texto no topo do frame.
-        (pack lbl-titulo :side :top :pady 20))
+           ;; Aba 1: Dashboard e Assistente de IA
+           (tab-dash (make-instance 'frame :master notebook))
 
-      ;; 3. Criação de um Botão para ver turmas no log/console
-      ;; O botão, quando clicado (comando em 'command'), vai rodar a função 'listar-turmas'
-      ;; e imprimir o resultado para facilitar a verificação durante a Fase 1 de desenvolvimento.
+           ;; Aba 2: Gestão Acadêmica (CRUD)
+           (tab-crud (make-instance 'frame :master notebook))
+
+           ;; Aba 3: Horários e BNCC
+           (tab-horarios (make-instance 'frame :master notebook)))
+
+      ;; Empacota o notebook para ocupar toda a janela principal.
+      (pack notebook :fill :both :expand t)
+
+      ;; Adiciona os frames como abas no notebook, com seus respectivos títulos.
+      (notebook-add notebook tab-dash :text "Dashboard & IA")
+      (notebook-add notebook tab-crud :text "Gestão Acadêmica (CRUD)")
+      (notebook-add notebook tab-horarios :text "Horários & BNCC")
+
+      ;; --- CONTEÚDO DA ABA 1: DASHBOARD ---
+      (let ((lbl-dash (make-instance 'label
+                                     :master tab-dash
+                                     :text "Bem-vindo ao ProfGent (Wireframe - Fase 2)")))
+        (pack lbl-dash :side :top :pady 20))
+
+      ;; Frame para o "Assistente de IA" na Aba 1
+      (let ((ai-frame (make-instance 'labelframe :master tab-dash :text "Assistente Inteligente (Mock)")))
+        (pack ai-frame :fill :x :padx 20 :pady 10)
+
+        ;; Entrada de texto para interagir com a IA (O placeholder da Fase 2)
+        (let* ((ai-input (make-instance 'entry :master ai-frame))
+               (btn-ai (make-instance 'button
+                                      :master ai-frame
+                                      :text "Perguntar à IA"
+                                      :command (lambda ()
+                                                 (let* ((input-text (text ai-input))
+                                                        (resposta (processar-comando-ia input-text)))
+                                                   (format t "IA Responde: ~A~%" resposta)
+                                                   ;; Limpa o campo de texto após enviar
+                                                   (setf (text ai-input) ""))))))
+          (pack ai-input :side :left :fill :x :expand t :padx 5 :pady 5)
+          (pack btn-ai :side :right :padx 5 :pady 5)))
+
+      ;; --- CONTEÚDO DA ABA 2: CRUD ---
+      (let ((lbl-crud (make-instance 'label
+                                     :master tab-crud
+                                     :text "Módulo de Cadastros - Alunos, Turmas, Disciplinas")))
+        (pack lbl-crud :side :top :pady 20))
+
+      ;; Botão simulando a listagem (Mantido da Fase 1, realocado para cá)
       (let ((btn-test (make-instance 'button
-                                     :master main-frame
+                                     :master tab-crud
                                      :text "Listar Turmas no Console"
-                                     ;; Define o que o botão faz ao ser clicado (uma função anônima, ou lambda)
                                      :command (lambda ()
                                                 (let ((turmas (listar-turmas)))
-                                                  ;; A função format imprime no log do sistema.
-                                                  ;; O ~a é onde a lista de turmas vai entrar.
                                                   (format t "As turmas cadastradas são: ~a~%" turmas))))))
-        ;; Empacota o botão logo abaixo do título
         (pack btn-test :side :top :pady 10))
 
-      ;; 4. Botão de Saída
-      ;; Um botão simples para fechar a janela.
-      (let ((btn-sair (make-instance 'button
-                                     :master main-frame
-                                     :text "Sair"
-                                     ;; Em LTk, se quisermos fechar o sistema, podemos só usar (setf *exit-mainloop* t)
-                                     ;; ou terminar o processo Tk.
-                                     :command (lambda ()
-                                                (setf *exit-mainloop* t)))))
-        ;; Empacota o botão de saída e posiciona-o na parte inferior do contêiner.
-        (pack btn-sair :side :bottom :pady 20)))))
+      ;; --- CONTEÚDO DA ABA 3: HORÁRIOS ---
+      (let ((lbl-horario (make-instance 'label
+                                        :master tab-horarios
+                                        :text "Módulo de Alocação Semanal e Planejamento BNCC")))
+        (pack lbl-horario :side :top :pady 20)))
+
+    ;; Botão de Saída fixo no fundo da janela (fora do Notebook)
+    (let ((btn-sair (make-instance 'button
+                                   :text "Sair"
+                                   :command (lambda ()
+                                              (setf *exit-mainloop* t)))))
+      (pack btn-sair :side :bottom :pady 10))))

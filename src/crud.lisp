@@ -11,7 +11,9 @@
            #:listar-turmas
            #:criar-aluno
            #:listar-alunos
-           #:deletar-aluno))
+           #:deletar-aluno
+           #:criar-disciplina
+           #:criar-avaliacao))
 
 (in-package #:profgent/crud)
 
@@ -85,4 +87,26 @@
     (sqlite:execute-non-query db
       "DELETE FROM alunos WHERE id = ?"
       aluno-id))
+  t)
+
+;;; =========================================================================
+;;; MÓDULO: DISCIPLINAS E AVALIAÇÕES (FASE 2)
+;;; =========================================================================
+
+;;; Função para inserir uma nova Disciplina (ex: "Matemática")
+(defun criar-disciplina (nome)
+  "Insere uma nova disciplina no banco de dados."
+  (with-db (db)
+    (sqlite:execute-non-query db
+      "INSERT INTO disciplinas (nome) VALUES (?)"
+      nome))
+  t)
+
+;;; Função para criar uma Avaliação que pertence a uma turma e uma disciplina
+(defun criar-avaliacao (nome data turma-id disciplina-id)
+  "Cria um registro de avaliação ou prova."
+  (with-db (db)
+    (sqlite:execute-non-query db
+      "INSERT INTO avaliacoes (nome, data, turma_id, disciplina_id) VALUES (?, ?, ?, ?)"
+      nome data turma-id disciplina-id))
   t)

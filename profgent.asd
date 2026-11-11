@@ -32,5 +32,7 @@
                  ;; O arquivo 'crud' gerencia as regras de negócio (inserir, ler, atualizar, deletar),
                  ;; ele depende de 'db' estar carregado primeiro.
                  (:file "crud" :depends-on ("db"))
-                 ;; O arquivo 'gui' monta a interface gráfica e depende das lógicas em 'crud' e 'db'.
-                 (:file "gui" :depends-on ("crud" "db"))))))
+                 ;; O arquivo 'ai' contém o mock de design do Assistente Inteligente.
+                 (:file "ai")
+                 ;; O arquivo 'gui' monta a interface gráfica e depende das lógicas em 'crud', 'db' e 'ai'.
+                 (:file "gui" :depends-on ("crud" "db" "ai"))))))

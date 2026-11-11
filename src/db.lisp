@@ -64,5 +64,52 @@
          FOREIGN KEY(turma_id) REFERENCES turmas(id)
        )")
 
+    ;; 3. Cria a tabela DISCIPLINAS
+    ;; Representa matérias como Matemática, Português, etc.
+    (sqlite:execute-non-query db
+      "CREATE TABLE IF NOT EXISTS disciplinas (
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         nome TEXT NOT NULL UNIQUE
+       )")
+
+    ;; 4. Cria a tabela AVALIACOES
+    ;; Representa as provas ou trabalhos de uma turma e disciplina específica.
+    (sqlite:execute-non-query db
+      "CREATE TABLE IF NOT EXISTS avaliacoes (
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         nome TEXT NOT NULL,
+         data TEXT NOT NULL,
+         turma_id INTEGER,
+         disciplina_id INTEGER,
+         FOREIGN KEY(turma_id) REFERENCES turmas(id),
+         FOREIGN KEY(disciplina_id) REFERENCES disciplinas(id)
+       )")
+
+    ;; 5. Cria a tabela NOTAS
+    ;; Relaciona um aluno a uma avaliação com o valor da nota obtida.
+    (sqlite:execute-non-query db
+      "CREATE TABLE IF NOT EXISTS notas (
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         aluno_id INTEGER,
+         avaliacao_id INTEGER,
+         valor REAL NOT NULL,
+         FOREIGN KEY(aluno_id) REFERENCES alunos(id),
+         FOREIGN KEY(avaliacao_id) REFERENCES avaliacoes(id)
+       )")
+
+    ;; 6. Cria a tabela AULAS_BNCC
+    ;; Registra os planos de aula e as competências da BNCC utilizadas na aula.
+    (sqlite:execute-non-query db
+      "CREATE TABLE IF NOT EXISTS aulas_bncc (
+         id INTEGER PRIMARY KEY AUTOINCREMENT,
+         turma_id INTEGER,
+         disciplina_id INTEGER,
+         data TEXT NOT NULL,
+         codigo_bncc TEXT NOT NULL,
+         descricao TEXT NOT NULL,
+         FOREIGN KEY(turma_id) REFERENCES turmas(id),
+         FOREIGN KEY(disciplina_id) REFERENCES disciplinas(id)
+       )")
+
     ;; Retorna a palavra :ok simbolizando sucesso para quem chamou a função.
     :ok))
