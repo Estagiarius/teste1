@@ -13,7 +13,10 @@
            #:listar-alunos
            #:deletar-aluno
            #:criar-disciplina
-           #:criar-avaliacao))
+           #:criar-avaliacao
+           #:dar-nota
+           #:listar-notas-aluno
+           #:calcular-media-turma))
 
 (in-package #:profgent/crud)
 
@@ -112,3 +115,48 @@
       "INSERT INTO avaliacoes (nome, data, turma_id, disciplina_id) VALUES (?, ?, ?, ?)"
       nome data turma-id disciplina-id))
   t)
+
+;;; =========================================================================
+;;; MÓDULO: NOTAS (FASE 3)
+;;; =========================================================================
+
+;;; Função para dar uma nota a um aluno específico em uma avaliação.
+;;; Recebe o ID do aluno, o ID da avaliação e o valor da nota (um número).
+(defun dar-nota (aluno-id avaliacao-id valor)
+  "Registra ou atualiza a nota de um aluno para uma determinada avaliação."
+  (with-db (db)
+    ;; Primeiro, executamos um comando SQL para inserir a nota na tabela 'notas'.
+    ;; O 'cl-sqlite' cuidará de colocar o valor, garantindo a segurança dos dados.
+    (sqlite:execute-non-query db
+      "INSERT INTO notas (aluno_id, avaliacao_id, valor) VALUES (?, ?, ?)"
+      aluno-id avaliacao-id valor))
+  ;; Retornamos verdadeiro indicando sucesso.
+  t)
+
+;;; Função para buscar todas as notas de um determinado aluno.
+(defun listar-notas-aluno (aluno-id)
+  "Recupera as avaliações e as notas correspondentes de um aluno."
+  (with-db (db)
+    ;; Fazemos uma consulta que une (JOIN) a tabela 'notas' com a tabela 'avaliacoes'.
+    ;; Queremos saber o nome da prova (av.nome) e o valor da nota tirada (n.valor).
+    (sqlite:execute-to-list db
+      "SELECT av.nome, n.valor
+       FROM notas n
+       JOIN avaliacoes av ON n.avaliacao_id = av.id
+       WHERE n.aluno_id = ?"
+      aluno-id)))
+
+;;; Função para calcular a média global de uma turma em uma disciplina
+(defun calcular-media-turma (turma-id disciplina-id)
+  "Calcula a média de todas as notas dadas a uma turma em uma determinada disciplina."
+  (with-db (db)
+    ;; Usamos a função de agregação 'AVG' do próprio SQLite para deixar o cálculo no banco de dados.
+    ;; Executa um SELECT simples com execute-single pois ele retorna apenas 1 valor matemático.
+    (let ((media (sqlite:execute-single db
+                   "SELECT AVG(n.valor)
+                    FROM notas n
+                    JOIN avaliacoes av ON n.avaliacao_id = av.id
+                    WHERE av.turma_id = ? AND av.disciplina_id = ?"
+                   turma-id disciplina-id)))
+      ;; Se não houver nenhuma nota, a média retornará nula. Tratamos isso.
+      (if media media 0.0))))

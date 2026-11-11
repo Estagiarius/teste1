@@ -7,8 +7,9 @@
   (:use #:cl #:ltk)
   ;; Importa a lógica do banco de dados (para inicializá-lo, se necessário) e as funções CRUD.
   (:import-from #:profgent/db #:init-db)
-  (:import-from #:profgent/crud #:listar-turmas)
+  (:import-from #:profgent/crud #:listar-turmas #:criar-turma #:criar-aluno)
   (:import-from #:profgent/ai #:processar-comando-ia)
+  (:import-from #:profgent/import #:importar-alunos-csv)
   ;; Exporta a função principal para iniciar a aplicação visual.
   (:export #:iniciar-app))
 
@@ -82,20 +83,82 @@
           (pack ai-input :side :left :fill :x :expand t :padx 5 :pady 5)
           (pack btn-ai :side :right :padx 5 :pady 5)))
 
-      ;; --- CONTEÚDO DA ABA 2: CRUD ---
-      (let ((lbl-crud (make-instance 'label
-                                     :master tab-crud
-                                     :text "Módulo de Cadastros - Alunos, Turmas, Disciplinas")))
-        (pack lbl-crud :side :top :pady 20))
+      ;; --- CONTEÚDO DA ABA 2: CRUD (IMPLEMENTAÇÃO FASE 3) ---
+      ;; Vamos criar um contêiner para organizar o formulário de "Nova Turma"
+      (let ((form-frame (make-instance 'labelframe :master tab-crud :text "Cadastrar Nova Turma")))
+        (pack form-frame :fill :x :padx 20 :pady 10)
 
-      ;; Botão simulando a listagem (Mantido da Fase 1, realocado para cá)
-      (let ((btn-test (make-instance 'button
-                                     :master tab-crud
-                                     :text "Listar Turmas no Console"
-                                     :command (lambda ()
-                                                (let ((turmas (listar-turmas)))
-                                                  (format t "As turmas cadastradas são: ~a~%" turmas))))))
-        (pack btn-test :side :top :pady 10))
+        ;; Grid (grade) para organizar os campos (Rótulo ao lado da Entrada)
+        (let ((lbl-nome (make-instance 'label :master form-frame :text "Nome da Turma:"))
+              (entry-nome (make-instance 'entry :master form-frame))
+              (lbl-ano (make-instance 'label :master form-frame :text "Ano Letivo:"))
+              (entry-ano (make-instance 'entry :master form-frame)))
+
+          ;; Empacotamos os rótulos e as entradas de texto em ordem
+          (pack lbl-nome :side :left :padx 5)
+          (pack entry-nome :side :left :padx 5)
+          (pack lbl-ano :side :left :padx 5)
+          (pack entry-ano :side :left :padx 5)
+
+          ;; Listbox para mostrar os cadastros visualmente na GUI
+          (let ((lista-gui (make-instance 'listbox :master tab-crud)))
+            (pack lista-gui :fill :both :expand t :padx 20 :pady 10)
+
+            ;; Botão que lê as entradas de texto e salva no banco de dados SQLite
+            (let ((btn-salvar (make-instance 'button
+                                             :master form-frame
+                                             :text "Salvar Turma"
+                                             :command (lambda ()
+                                                        (let ((n (text entry-nome))
+                                                              (a (text entry-ano)))
+                                                          ;; Chama a função real de negócio
+                                                          (criar-turma n a)
+                                                          ;; Atualiza o log e a lista visual
+                                                          (format t "Nova turma salva: ~A (~A)~%" n a)
+                                                          (listbox-append lista-gui (format nil "Turma: ~A - Ano: ~A" n a))
+                                                          ;; Limpa os campos de input
+                                                          (setf (text entry-nome) "")
+                                                          (setf (text entry-ano) ""))))))
+              (pack btn-salvar :side :left :padx 15))
+
+            ;; NOVO CONTÊINER: Formulário para "Novo Aluno"
+            (let ((form-aluno (make-instance 'labelframe :master tab-crud :text "Cadastrar Novo Aluno")))
+              (pack form-aluno :fill :x :padx 20 :pady 10)
+
+              (let ((lbl-aluno-nome (make-instance 'label :master form-aluno :text "Nome:"))
+                    (entry-aluno-nome (make-instance 'entry :master form-aluno))
+                    (lbl-mat (make-instance 'label :master form-aluno :text "Matrícula:"))
+                    (entry-mat (make-instance 'entry :master form-aluno))
+                    (lbl-tid (make-instance 'label :master form-aluno :text "ID Turma:"))
+                    (entry-tid (make-instance 'entry :master form-aluno :width 5)))
+
+                (pack lbl-aluno-nome :side :left :padx 5)
+                (pack entry-aluno-nome :side :left :padx 5)
+                (pack lbl-mat :side :left :padx 5)
+                (pack entry-mat :side :left :padx 5)
+                (pack lbl-tid :side :left :padx 5)
+                (pack entry-tid :side :left :padx 5)
+
+                (let ((btn-salvar-aluno (make-instance 'button
+                                                       :master form-aluno
+                                                       :text "Salvar Aluno"
+                                                       :command (lambda ()
+                                                                  (let* ((nome (text entry-aluno-nome))
+                                                                         (mat (text entry-mat))
+                                                                         ;; Parseia o ID da turma de texto para número. Se falhar usa 0.
+                                                                         (tid-texto (text entry-tid))
+                                                                         (tid (or (parse-integer tid-texto :junk-allowed t) 0)))
+                                                                    ;; Chama a função do CRUD para Alunos
+                                                                    (handler-case
+                                                                        (progn
+                                                                          (criar-aluno nome mat tid)
+                                                                          (listbox-append lista-gui (format nil "Aluno: ~A (Mat: ~A) -> Turma ID: ~A" nome mat tid))
+                                                                          (setf (text entry-aluno-nome) "")
+                                                                          (setf (text entry-mat) "")
+                                                                          (setf (text entry-tid) ""))
+                                                                      (error (e)
+                                                                        (format t "Erro ao salvar aluno (Matricula duplicada ou turma nao existe).~%"))))))))
+                  (pack btn-salvar-aluno :side :left :padx 15)))))))
 
       ;; --- CONTEÚDO DA ABA 3: HORÁRIOS ---
       (let ((lbl-horario (make-instance 'label
