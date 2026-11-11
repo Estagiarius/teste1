@@ -28,6 +28,9 @@
   "Macro que abre uma conexão SQLite com o banco de dados, vincula a conexão à variável informada 'db-var', executa o 'body', e garante o fechamento no final."
   `(sqlite:with-open-database (,db-var *db-path*)
      (declare (ignorable ,db-var))
+     ;; Ativa as chaves estrangeiras que são desabilitadas por padrão no SQLite.
+     ;; Sem isso, o banco permitiria deletar uma turma deixando alunos 'órfãos'.
+     (sqlite:execute-non-query ,db-var "PRAGMA foreign_keys = ON;")
      ,@body))
 
 ;;; Função para inicializar o banco de dados.

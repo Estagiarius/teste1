@@ -72,8 +72,10 @@
     ;; Verifica se o filtro de turma foi enviado
     (if turma-id
         ;; Se turma-id existe, rodamos uma consulta SELECT usando a cláusula WHERE para filtrar.
+        ;; CORREÇÃO DE BUG: Adicionado 'turma_id' na seleção para manter a mesma aridade/formato
+        ;; em todos os retornos e evitar crashes na listagem da GUI (LTk Treeview).
         (sqlite:execute-to-list db
-          "SELECT id, nome, matricula FROM alunos WHERE turma_id = ?"
+          "SELECT id, nome, matricula, turma_id FROM alunos WHERE turma_id = ?"
           turma-id)
 
         ;; Caso contrário, simplesmente lemos e listamos a tabela de alunos inteira.
