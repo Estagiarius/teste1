@@ -17,7 +17,8 @@
         </div>
     </div>
 
-    <div class="mt-4 flex gap-4">
+    <div class="mt-4 flex flex-wrap gap-4">
+        <a href="{% url 'aluno_create' %}?turma={{ turma.id }}" class="bg-green-100 text-green-700 px-4 py-2 rounded hover:bg-green-200">+ Novo Aluno Manual</a>
         <a href="{% url 'importar_alunos' turma.id %}" class="bg-blue-100 text-blue-700 px-4 py-2 rounded hover:bg-blue-200">Importar Alunos CSV</a>
         <a href="{% url 'notas_turma' turma.id %}" class="bg-purple-100 text-purple-700 px-4 py-2 rounded hover:bg-purple-200">Lançamento de Notas / Gráficos</a>
         <a href="{% url 'copiar_turma' turma.id %}" class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200">Copiar Estrutura</a>
@@ -34,8 +35,12 @@
         </div>
         <ul>
             {% for disc in turma.disciplinas.all %}
-                <li class="border-b py-2 flex justify-between">
+                <li class="border-b py-2 flex justify-between items-center">
                     <span>{{ disc.nome }}</span>
+                    <div class="flex gap-2">
+                        <a href="{% url 'disciplina_update' disc.id %}" class="text-xs text-yellow-600 hover:underline">Editar</a>
+                        <a href="{% url 'disciplina_delete' disc.id %}" class="text-xs text-red-600 hover:underline">Excluir</a>
+                    </div>
                 </li>
             {% empty %}
                 <li class="text-gray-500 py-2">Nenhuma disciplina cadastrada.</li>
@@ -50,8 +55,12 @@
         </div>
         <ul>
             {% for hr in turma.horarios.all %}
-                <li class="border-b py-2">
-                    {{ hr.get_dia_semana_display }} - {{ hr.tempo_aula }}º Tempo: {{ hr.disciplina.nome }}
+                <li class="border-b py-2 flex justify-between items-center">
+                    <span>{{ hr.get_dia_semana_display }} - {{ hr.tempo_aula }}º Tempo: {{ hr.disciplina.nome }}</span>
+                    <div class="flex gap-2">
+                        <a href="{% url 'horario_update' hr.id %}" class="text-xs text-yellow-600 hover:underline">Editar</a>
+                        <a href="{% url 'horario_delete' hr.id %}" class="text-xs text-red-600 hover:underline">Excluir</a>
+                    </div>
                 </li>
             {% empty %}
                 <li class="text-gray-500 py-2">Nenhum horário cadastrado.</li>
@@ -82,7 +91,9 @@
                     </span>
                 </td>
                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm flex gap-2">
-                    <a href="{% url 'boletim_pdf' aluno.id %}" class="text-blue-500 hover:underline">Gerar Boletim PDF</a>
+                    <a href="{% url 'boletim_pdf' aluno.id %}" class="text-blue-500 hover:underline">Boletim</a> |
+                    <a href="{% url 'aluno_update' aluno.id %}" class="text-yellow-500 hover:underline">Editar</a> |
+                    <a href="{% url 'aluno_delete' aluno.id %}" class="text-red-500 hover:underline">Excluir</a>
                 </td>
             </tr>
             {% empty %}

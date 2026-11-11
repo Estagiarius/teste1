@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Planejamento de Aulas (BNCC)</h1>
+    <a href="{% url 'aula_create' %}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow">
+        + Registrar Aula
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full leading-normal">
+            <thead>
+                <tr>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Data</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Turma / Disciplina</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Conteúdo</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Competências BNCC</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aula in aulas %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-5 py-5 border-b border-gray-200 text-sm whitespace-nowrap">{{ aula.data|date:"d/m/Y" }}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                        <strong>{{ aula.disciplina.turma.nome }}</strong><br>
+                        <span class="text-gray-500">{{ aula.disciplina.nome }}</span>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ aula.conteudo_lecionado|truncatechars:80 }}</td>
+                    <td class="px-5 py-5 border-b border-gray-200 text-xs text-blue-700">
+                        <div class="flex flex-wrap gap-1">
+                        {% for bncc in aula.habilidades_bncc.all %}
+                            <span title="{{ bncc.descricao }}" class="bg-blue-100 px-2 py-1 rounded-full font-semibold border border-blue-200 cursor-help">{{ bncc.codigo }}</span>
+                        {% empty %}
+                            <span class="text-gray-400 italic">Nenhuma habilidade associada.</span>
+                        {% endfor %}
+                        </div>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                        <div class="flex gap-3">
+                            <a href="{% url 'aula_update' aula.id %}" class="text-yellow-600 hover:text-yellow-800 hover:underline">Editar</a>
+                            <a href="{% url 'aula_delete' aula.id %}" class="text-red-600 hover:text-red-800 hover:underline">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="px-5 py-8 text-center text-gray-500 bg-gray-50">
+                        Nenhum planejamento de aula registrado até o momento.
+                        <br><a href="{% url 'aula_create' %}" class="text-blue-600 hover:underline mt-2 inline-block">Comece criando o primeiro plano de aula.</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -155,7 +155,7 @@ from .ai_assistant import parse_and_execute_command
 
 from django.contrib.auth.decorators import login_required
 # @csrf_exempt
-@login_required
+
 def api_chat(request):
     if request.method == 'POST':
         try:
@@ -226,3 +226,82 @@ def replicar_aulas_view(request, turma_origem_id):
 
     turmas_destino = Turma.objects.exclude(id=turma_origem_id)
     return render(request, 'core/replicar_aulas.html', {'turma': turma_origem, 'turmas_destino': turmas_destino})
+
+
+# --- UPDATE E DELETE ---
+# Aluno
+class AlunoUpdateView(UpdateView):
+    model = Aluno
+    fields = ['nome', 'data_nascimento', 'matricula', 'situacao', 'turma']
+    template_name = 'core/form_base.html'
+    success_url = reverse_lazy('turma_list')
+
+class AlunoDeleteView(DeleteView):
+    model = Aluno
+    template_name = 'core/confirm_delete.html'
+    success_url = reverse_lazy('turma_list')
+
+# Disciplina
+class DisciplinaUpdateView(UpdateView):
+    model = Disciplina
+    fields = ['nome', 'turma']
+    template_name = 'core/form_base.html'
+    success_url = reverse_lazy('turma_list')
+
+class DisciplinaDeleteView(DeleteView):
+    model = Disciplina
+    template_name = 'core/confirm_delete.html'
+    success_url = reverse_lazy('turma_list')
+
+# Avaliacao
+class AvaliacaoUpdateView(UpdateView):
+    model = Avaliacao
+    fields = ['nome', 'data', 'peso', 'disciplina']
+    template_name = 'core/form_base.html'
+    success_url = reverse_lazy('turma_list')
+
+class AvaliacaoDeleteView(DeleteView):
+    model = Avaliacao
+    template_name = 'core/confirm_delete.html'
+    success_url = reverse_lazy('turma_list')
+
+# Nota
+class NotaUpdateView(UpdateView):
+    model = Nota
+    fields = ['aluno', 'avaliacao', 'valor']
+    template_name = 'core/form_base.html'
+    success_url = reverse_lazy('turma_list')
+
+class NotaDeleteView(DeleteView):
+    model = Nota
+    template_name = 'core/confirm_delete.html'
+    success_url = reverse_lazy('turma_list')
+
+# Horario
+class HorarioUpdateView(UpdateView):
+    model = Horario
+    fields = ['turma', 'dia_semana', 'tempo_aula', 'disciplina']
+    template_name = 'core/form_base.html'
+    success_url = reverse_lazy('turma_list')
+
+class HorarioDeleteView(DeleteView):
+    model = Horario
+    template_name = 'core/confirm_delete.html'
+    success_url = reverse_lazy('turma_list')
+
+# Aula (BNCC)
+class AulaUpdateView(UpdateView):
+    model = Aula
+    fields = ['data', 'disciplina', 'conteudo_lecionado', 'habilidades_bncc']
+    template_name = 'core/form_base.html'
+    success_url = reverse_lazy('aula_list')
+
+class AulaDeleteView(DeleteView):
+    model = Aula
+    template_name = 'core/confirm_delete.html'
+    success_url = reverse_lazy('aula_list')
+
+class AulaListView(ListView):
+    model = Aula
+    template_name = 'core/aula_list.html'
+    context_object_name = 'aulas'

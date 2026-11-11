@@ -34,3 +34,19 @@ urlpatterns += [
     path('turmas/<int:pk>/excluir/', views.TurmaDeleteView.as_view(), name='turma_delete'),
     path('turmas/<int:turma_origem_id>/replicar_aulas/', views.replicar_aulas_view, name='replicar_aulas'),
 ]
+
+urlpatterns += [
+    path('alunos/<int:pk>/editar/', views.AlunoUpdateView.as_view(), name='aluno_update'),
+    path('alunos/<int:pk>/excluir/', views.AlunoDeleteView.as_view(), name='aluno_delete'),
+    path('disciplinas/<int:pk>/editar/', views.DisciplinaUpdateView.as_view(), name='disciplina_update'),
+    path('disciplinas/<int:pk>/excluir/', views.DisciplinaDeleteView.as_view(), name='disciplina_delete'),
+    path('avaliacoes/<int:pk>/editar/', views.AvaliacaoUpdateView.as_view(), name='avaliacao_update'),
+    path('avaliacoes/<int:pk>/excluir/', views.AvaliacaoDeleteView.as_view(), name='avaliacao_delete'),
+    path('notas/<int:pk>/editar/', views.NotaUpdateView.as_view(), name='nota_update'),
+    path('notas/<int:pk>/excluir/', views.NotaDeleteView.as_view(), name='nota_delete'),
+    path('horarios/<int:pk>/editar/', views.HorarioUpdateView.as_view(), name='horario_update'),
+    path('horarios/<int:pk>/excluir/', views.HorarioDeleteView.as_view(), name='horario_delete'),
+    path('aulas/', views.AulaListView.as_view(), name='aula_list'),
+    path('aulas/<int:pk>/editar/', views.AulaUpdateView.as_view(), name='aula_update'),
+    path('aulas/<int:pk>/excluir/', views.AulaDeleteView.as_view(), name='aula_delete'),
+]
