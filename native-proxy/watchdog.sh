@@ -6,12 +6,17 @@
 
 # Definição de caminhos absolutos no Sandbox do usuário no BB10
 PROXY_BIN="/accounts/1000/shared/documents/proxy_tls13"
-LOG_FILE="/accounts/1000/shared/documents/proxy_watchdog.log"
+LOG_DIR="/accounts/1000/shared/documents"
+LOG_FILE="$LOG_DIR/proxy_watchdog.log"
 PROXY_NAME="proxy_tls13"
+
+# Previne erro silencioso de log se a pasta não existir
+mkdir -p "$LOG_DIR" 2>/dev/null
+touch "$LOG_FILE" 2>/dev/null
 
 # Função para registrar mensagens de log com data e hora
 log_msg() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE" 2>/dev/null
 }
 
 # Verifica se o binário tem permissão de execução
@@ -26,9 +31,9 @@ log_msg "Iniciando Watchdog do Proxy TLS 1.3..."
 while true; do
     # Verifica se o processo já está rodando.
     # No QNX/BB10, 'pidof' costuma estar disponível. Caso não esteja,
-    # uma alternativa segura é usar 'ps -e' filtrando com grep
-    # (ignorando o próprio grep na busca).
-    if ! ps -e | grep -v grep | grep -q "$PROXY_NAME"; then
+    # uma alternativa segura é usar 'ps -e' filtrando com grep.
+    # O uso de colchetes na primeira letra previne o matching do próprio grep.
+    if ! ps -e | grep -q "[p]roxy_tls13$"; then
         log_msg "AVISO: Instancia do $PROXY_NAME nao encontrada. Iniciando processo em background."
 
         # Inicia o proxy em background, redirecionando saída de erro e padrão para /dev/null

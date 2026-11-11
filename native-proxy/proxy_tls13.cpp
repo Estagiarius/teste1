@@ -34,6 +34,10 @@ void process_http_request(std::string& request, std::string& host) {
 
         if (end != std::string::npos) {
             std::string host_line = request.substr(start, end - start);
+
+            // Cleanup any trailing carriage returns explicitly
+            host_line.erase(std::remove(host_line.begin(), host_line.end(), '\r'), host_line.end());
+
             size_t colon = host_line.find(':');
             if (colon != std::string::npos) {
                 host = host_line.substr(0, colon);
@@ -76,8 +80,12 @@ void handle_client(int client_fd) {
     mbedtls_ctr_drbg_init(&ctr_drbg);
     mbedtls_entropy_init(&entropy);
 
+    bool ssl_setup_done = false;
+
     auto cleanup = [&]() {
-        mbedtls_ssl_close_notify(&ssl);
+        if (ssl_setup_done) {
+            mbedtls_ssl_close_notify(&ssl);
+        }
         mbedtls_net_free(&server_fd);
         mbedtls_ssl_free(&ssl);
         mbedtls_ssl_config_free(&conf);
@@ -138,6 +146,8 @@ void handle_client(int client_fd) {
         return;
     }
 
+    ssl_setup_done = true;
+
     if (mbedtls_ssl_set_hostname(&ssl, host.c_str()) != 0) {
         cleanup();
         return;
@@ -195,8 +205,10 @@ void handle_client(int client_fd) {
                     }
                     written += w;
                 }
+            } else if (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE) {
+                // SSL logic needs to retry - ignore and loop
             } else if (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY || ret <= 0) {
-                break; // Server disconnected
+                break; // Server disconnected or fatal error
             }
         }
 
@@ -264,8 +276,14 @@ int main() {
         int client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &client_len);
 
         if (client_fd >= 0) {
-            std::thread t(handle_client, client_fd);
-            t.detach();
+            // Protect against select() FD_SETSIZE limitations which can cause buffer overruns
+            if (client_fd >= FD_SETSIZE) {
+                std::cerr << "Max connections reached, dropping client." << std::endl;
+                close(client_fd);
+            } else {
+                std::thread t(handle_client, client_fd);
+                t.detach();
+            }
         }
     }
 
