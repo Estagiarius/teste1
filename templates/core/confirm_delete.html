@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white rounded-lg shadow-md p-8 mt-10 text-center">
+    <h2 class="text-2xl font-bold mb-4 text-red-600">Confirmar Exclusão</h2>
+    <p class="mb-6 text-gray-700">Tem certeza que deseja excluir <strong>{{ object }}</strong>?</p>
+
+    <form method="post" class="flex justify-center gap-4">
+        {% csrf_token %}
+        <button type="button" onclick="history.back()" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400">Cancelar</button>
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Confirmar Exclusão</button>
+    </form>
+</div>
+{% endblock %}

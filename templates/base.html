@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProfGent - Gestão Escolar</title>
+    <!-- Tailwind CSS (via CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold">ProfGent</a>
+            <div class="space-x-4">
+                <a href="{% url 'turma_list' %}" class="hover:text-blue-200">Turmas</a>
+                <a href="{% url 'aula_create' %}" class="hover:text-blue-200">Planejamento</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Chat Flutuante IA -->
+    <div id="chat-widget" class="fixed bottom-4 right-4 z-50">
+        <button id="chat-toggle" class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform transform hover:scale-110">
+            💬
+        </button>
+        <div id="chat-box" class="hidden bg-white w-80 h-96 rounded-lg shadow-xl mt-2 flex flex-col border border-gray-200 absolute bottom-16 right-0">
+            <div class="bg-blue-600 text-white p-3 rounded-t-lg font-bold flex justify-between items-center">
+                <span>Assistente IA ProfGent</span>
+                <button id="chat-close" class="text-white hover:text-gray-200">✖</button>
+            </div>
+            <div id="chat-messages" class="flex-grow p-3 overflow-y-auto bg-gray-50 text-sm flex flex-col gap-2">
+                <div class="bg-blue-100 text-blue-900 p-2 rounded-lg self-start max-w-[80%]">Olá! Sou o assistente de IA. Como posso ajudar com a gestão das turmas hoje?</div>
+            </div>
+            <div class="p-3 border-t flex gap-2">
+                <input type="text" id="chat-input" class="flex-grow border rounded-lg px-2 py-1 focus:outline-none focus:border-blue-500" placeholder="Digite seu comando...">
+                <button id="chat-send" class="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatBox = document.getElementById('chat-box');
+        const chatClose = document.getElementById('chat-close');
+
+        chatToggle.addEventListener('click', () => {
+            chatBox.classList.toggle('hidden');
+        });
+        chatClose.addEventListener('click', () => {
+            chatBox.classList.add('hidden');
+        });
+
+        // Script básico para envio (Integração IA na próxima etapa)
+        const sendBtn = document.getElementById('chat-send');
+        const input = document.getElementById('chat-input');
+        const messagesDiv = document.getElementById('chat-messages');
+
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+        async function sendMessage() {
+            const text = input.value.trim();
+            if(!text) return;
+
+            // Add user msg
+            messagesDiv.innerHTML += `<div class="bg-gray-200 text-gray-800 p-2 rounded-lg self-end max-w-[80%]">${text}</div>`;
+            input.value = '';
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            // Envia para o backend (Endpoint será criado na etapa 7)
+            try {
+                const response = await fetch('/api/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}' // Needed for Django
+                    },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await response.json();
+                messagesDiv.innerHTML += `<div class="bg-blue-100 text-blue-900 p-2 rounded-lg self-start max-w-[80%]">${data.reply}</div>`;
+            } catch(e) {
+                messagesDiv.innerHTML += `<div class="bg-red-100 text-red-900 p-2 rounded-lg self-start max-w-[80%]">Erro ao conectar com assistente. (Modo offline)</div>`;
+            }
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>

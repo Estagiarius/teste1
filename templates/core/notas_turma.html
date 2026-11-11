@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-6">
+    <a href="{% url 'turma_detail' turma.id %}" class="text-blue-500 hover:underline">&larr; Voltar para Detalhes da Turma</a>
+</div>
+
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Desempenho da Turma: {{ turma.nome }}</h1>
+    <div class="flex gap-2">
+        <a href="{% url 'avaliacao_create' %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">+ Nova Avaliação</a>
+        <a href="{% url 'nota_create' %}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Lançar Nota</a>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6 mb-8">
+    <h2 class="text-xl font-bold mb-4">Gráfico de Distribuição de Notas (Geral)</h2>
+    <div class="w-full max-w-2xl mx-auto">
+        <canvas id="notasChart"></canvas>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-4">Exportar Boletins</h2>
+    <p class="text-gray-600 mb-4">Gere boletins individuais em formato PDF com facilidade.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {% for aluno in alunos %}
+        <div class="border p-4 rounded flex justify-between items-center">
+            <span>{{ aluno.nome }}</span>
+            <a href="{% url 'boletim_pdf' aluno.id %}" class="text-sm bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200">PDF</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch("{% url 'grafico_notas' turma.id %}")
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('notasChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Quantidade de Alunos por Faixa de Nota',
+                            data: data.datasets[0].data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { stepSize: 1 }
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
+{% endblock %}

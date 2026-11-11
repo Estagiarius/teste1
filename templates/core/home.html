@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mt-10">
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">Bem-vindo ao ProfGent</h1>
+    <p class="text-xl text-gray-600 mb-8">O seu sistema inteligente de gestão escolar.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        <a href="{% url 'turma_list' %}" class="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Turmas & Alunos</h5>
+            <p class="font-normal text-gray-700">Gerencie suas turmas, importe alunos via CSV e acompanhe as matrículas.</p>
+        </a>
+
+        <a href="{% url 'aula_create' %}" class="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">Planejamento BNCC</h5>
+            <p class="font-normal text-gray-700">Crie planos de aula selecionando as competências da Base Nacional Comum Curricular.</p>
+        </a>
+
+        <div class="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 cursor-pointer" onclick="document.getElementById('chat-toggle').click()">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-blue-600">Assistente IA</h5>
+            <p class="font-normal text-gray-700">"Quais as notas da turma do 1º Ano?" Peça para a IA executar tarefas para você.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-xl mx-auto bg-white rounded-lg shadow-md p-8 mt-10">
+    <h2 class="text-2xl font-bold mb-6 text-center">Replicação de Aulas</h2>
+    <p class="mb-4 text-gray-600 text-center">Turma Origem: <strong>{{ turma.nome }}</strong></p>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Turma Destino</label>
+            <select name="turma_destino" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="">Selecione a turma de destino...</option>
+                {% for t in turmas_destino %}
+                <option value="{{ t.id }}">{{ t.nome }} ({{ t.ano_letivo }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="flex gap-2">
+            <button type="button" onclick="history.back()" class="w-1/2 flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Cancelar</button>
+            <button type="submit" class="w-1/2 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">Replicar Aulas</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
