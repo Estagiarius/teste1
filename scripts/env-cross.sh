@@ -17,8 +17,17 @@ export STAGING="${STAGING:-${WORKSPACE_ROOT}/staging}"
 export SYSROOT_PREFIX="${STAGING}${PREFIX}"
 
 # Variáveis da toolchain QNX / BerryCore GCC 9.3.0
+export QNX_VERSION="${QNX_VERSION:-qnx800}"
 export QNX_HOST="${QNX_HOST:-${TOOLCHAIN_DIR}/x86_64-linux}"
-export QNX_TARGET="${QNX_TARGET:-${TOOLCHAIN_DIR}/arm-blackberry-qnx8eabi}"
+export QNX_TARGET="${QNX_TARGET:-${TOOLCHAIN_DIR}}"
+export QNX_INC="${QNX_INC:-${TOOLCHAIN_DIR}/include}"
+export QNX_ARCH="${QNX_ARCH:-armle-v7}"
+export QNX_ABI="${QNX_ABI:-${TARGET}}"
+export QNX_BIN="${QNX_BIN:-${TOOLCHAIN_DIR}/bin}"
+export QNX_PREBUILT="${QNX_PREBUILT:-${TOOLCHAIN_DIR}/${TARGET}}"
+export QNX_PREBUILT_BIN="${QNX_PREBUILT_BIN:-${QNX_HOST}/${TARGET}/bin}"
+export QNX_PREBUILT_LIBEXEC="${QNX_PREBUILT_LIBEXEC:-${QNX_HOST}/${TARGET}/lib64}"
+export QNX_PREBUILT_GCCLIB="${QNX_PREBUILT_GCCLIB:-${QNX_PREBUILT_LIBEXEC}/gcc/${TARGET}/9.3.0}"
 
 # Garante que os binários da toolchain tenham prioridade no PATH sem duplicar entradas
 case ":${PATH}:" in

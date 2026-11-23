@@ -1,0 +1,20 @@
+--- a/configure
++++ b/configure
+@@ -6984,7 +6984,7 @@
+ 		MK_SHARED_LIB='${LD} ${LDFLAGS} -Bshareable -o $@'
+ 		test "$cf_cv_shlib_version" = auto && cf_cv_shlib_version=rel
+ 		;;
+-	(dragonfly*|freebsd*)
++	(dragonfly*|freebsd*|qnx*)
+ 		CC_SHARED_OPTS="$CC_SHARED_OPTS -DPIC"
+ 		if test "$DFT_LWR_MODEL" = "shared" && test "$cf_cv_enable_rpath" = yes ; then
+ 			LOCAL_LDFLAGS="${cf_ld_rpath_opt}\$(LOCAL_LIBDIR)"
+@@ -11224,7 +11224,7 @@
+ (osf[45]*)
+ 	cf_xopen_source="-D_OSF_SOURCE"
+ 	;;
+-(nto-qnx*)
++(nto-qnx*|qnx*)
+ 	cf_xopen_source="-D_QNX_SOURCE"
+ 	;;
+ (sco*)

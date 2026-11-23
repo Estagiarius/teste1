@@ -15,7 +15,7 @@ build() {
         --prefix="${PREFIX}" \
         --disable-xattr
 
-    make -j"${JOBS}"
+    make -j"${JOBS}" CFLAGS="${CFLAGS} -include sys/time.h -DOK_TO_USE_1S_CLOCK -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"
 }
 
 install_staging() {

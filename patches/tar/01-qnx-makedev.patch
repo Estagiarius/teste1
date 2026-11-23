@@ -1,0 +1,16 @@
+--- a/src/list.c
++++ b/src/list.c
+@@ -705,8 +705,13 @@
+ 	case BLKTYPE:
+ 	case CHRTYPE:
+ 	  stat_info->stat.st_rdev =
++#ifdef __QNXNTO__
++	    makedev (0, MAJOR_FROM_HEADER (header->header.devmajor),
++		     MINOR_FROM_HEADER (header->header.devminor));
++#else
+ 	    makedev (MAJOR_FROM_HEADER (header->header.devmajor),
+ 		     MINOR_FROM_HEADER (header->header.devminor));
++#endif
+ 	  break;
+ 
+ 	default:

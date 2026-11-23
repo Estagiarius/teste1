@@ -1,0 +1,11 @@
+--- a/src/main.c
++++ b/src/main.c
+@@ -913,7 +913,7 @@
+     }
+ #endif
+ 
+-#ifdef __QNXNTO__
++#if defined(__QNXNTO__) && defined(FEAT_GUI_PHOTON)
+     qnx_init();		// PhAttach() for clipboard, (and gui)
+ #endif
+ 

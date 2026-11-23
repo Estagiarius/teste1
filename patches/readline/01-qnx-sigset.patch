@@ -1,0 +1,12 @@
+--- a/rlprivate.h
++++ b/rlprivate.h
+@@ -23,6 +23,9 @@
+ #if !defined (_RL_PRIVATE_H_)
+ #define _RL_PRIVATE_H_
+ 
++#ifdef __QNXNTO__
++#include <signal.h>
++#endif
+ #include "rlconf.h"	/* for VISIBLE_STATS */
+ #include "rlstdc.h"
+ #include "posixjmp.h"	/* defines procenv_t */

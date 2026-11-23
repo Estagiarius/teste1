@@ -76,8 +76,8 @@ if [[ -d "${META_DIR}" ]]; then
     shopt -u nullglob
 
     for meta_file in "${meta_files[@]}"; do
-        IFS=$'\t' read -r pkg_name pkg_ver pkg_status < <(
-            python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(f"{d[\"name\"]}\t{d[\"version\"]}\t{d[\"status\"]}")' "${meta_file}"
+        IFS='|' read -r pkg_name pkg_ver pkg_status < <(
+            python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["name"], d["version"], d["status"], sep="|")' "${meta_file}"
         )
         [[ "${pkg_status}" == "SUCCESS" ]] || continue
 

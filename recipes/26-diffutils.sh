@@ -15,7 +15,7 @@ build() {
         --prefix="${PREFIX}" \
         --disable-nls
 
-    make -j"${JOBS}"
+    make -j"${JOBS}" CFLAGS="${CFLAGS} -include sys/time.h -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0"
 }
 
 install_staging() {

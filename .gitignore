@@ -21,3 +21,4 @@ logs/*.log
 *.swo
 *~
 .DS_Store
+dist/.pkgmeta/

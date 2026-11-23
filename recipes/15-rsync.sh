@@ -9,6 +9,9 @@ PKG_URL="https://github.com/RsyncProject/rsync/releases/download/v3.5.2/rsync-3.
 PKG_SHA256="a10d591825251e070f74c98df3daad195def4ed81b4a2de16169026aea33f6c8"
 
 build() {
+    ac_cv_search_iconv_open=no \
+    ac_cv_header_iconv_h=no \
+    CPPFLAGS="${CPPFLAGS} -DMAKEDEV_TAKES_3_ARGS" \
     LIBS="-lcrypto -lz -lsocket" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
@@ -21,9 +24,12 @@ build() {
         --disable-lz4 \
         --disable-md2man \
         --disable-acl-support \
-        --disable-xattr-support
+        --disable-xattr-support \
+        --disable-idn \
+        --disable-iconv-open \
+        --disable-iconv
 
-    make -j"${JOBS}"
+    make -j"${JOBS}" LIBS="-lz -lcrypto -lsocket"
 }
 
 install_staging() {

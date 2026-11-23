@@ -34,7 +34,9 @@ build() {
         --enable-shared \
         --enable-static
 
-    make -j"${JOBS}"
+    make -j"${JOBS}" \
+        CFLAGS="-O2 -pipe -I${SYSROOT_PREFIX}/include" \
+        CPPFLAGS="-I${SYSROOT_PREFIX}/include"
 }
 
 install_staging() {

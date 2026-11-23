@@ -1,0 +1,22 @@
+--- a/configure
++++ b/configure
+@@ -4279,6 +4279,9 @@
+ 	*-*-wasi)
+ 	    ac_sys_system=WASI
+ 	    ;;
++	*-*-qnx*)
++	    ac_sys_system=QNX
++	    ;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"
+@@ -4341,6 +4344,9 @@
+ 	wasm32-*-* | wasm64-*-*)
+ 		_host_cpu=$host_cpu
+ 		;;
++	*-*-qnx*)
++		_host_cpu=$host_cpu
++		;;
+ 	*)
+ 		# for now, limit cross builds to known configurations
+ 		MACHDEP="unknown"

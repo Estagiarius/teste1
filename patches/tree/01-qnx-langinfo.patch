@@ -1,0 +1,15 @@
+--- a/tree.h
++++ b/tree.h
+@@ -52,7 +52,12 @@
+ #endif
+ 
+ #include <locale.h>
++#ifndef __QNXNTO__
+ #include <langinfo.h>
++#else
++#define CODESET 0
++static inline char *nl_langinfo(int item) { (void)item; return "UTF-8"; }
++#endif
+ #include <wchar.h>
+ #include <wctype.h>
+ #include <stdbool.h>

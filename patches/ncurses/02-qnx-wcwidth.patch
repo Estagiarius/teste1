@@ -1,0 +1,18 @@
+--- a/ncurses/widechar/lib_wacs.c
++++ b/ncurses/widechar/lib_wacs.c
+@@ -146,3 +146,15 @@
+ 	}
+     }
+ }
++
++#ifdef __QNXNTO__
++#define mk_wcwidth(ucs)          wcwidth(ucs)
++#define mk_wcswidth(pwcs, n)     wcswidth(pwcs, n)
++#define mk_wcwidth_cjk(ucs)      _nc_wcwidth_cjk(ucs)
++#define mk_wcswidth_cjk(pwcs, n) _nc_wcswidth_cjk(pwcs, n)
++NCURSES_EXPORT(int) mk_wcwidth(wchar_t);
++NCURSES_EXPORT(int) mk_wcswidth(const wchar_t *, size_t);
++NCURSES_EXPORT(int) mk_wcwidth_cjk(wchar_t);
++NCURSES_EXPORT(int) mk_wcswidth_cjk(const wchar_t *, size_t);
++#include <wcwidth.h>
++#endif /* __QNXNTO__ */

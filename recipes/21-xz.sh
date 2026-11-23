@@ -9,6 +9,7 @@ PKG_URL="https://github.com/tukaani-project/xz/releases/download/v5.8.4/xz-5.8.4
 PKG_SHA256="0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9"
 
 build() {
+    CFLAGS="${CFLAGS} -include time.h -include sys/time.h -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \

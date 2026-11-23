@@ -1,0 +1,12 @@
+--- a/src/output.h
++++ b/src/output.h
+@@ -68,6 +68,9 @@
+ #ifndef USE_GLIBC_STDIO
+ void outcslow(int, struct output *);
+ #endif
++#ifdef __QNXNTO__
++#define flushall dash_flushall
++#endif
+ void flushall(void);
+ void flushout(struct output *);
+ void outfmt(struct output *, const char *, ...)

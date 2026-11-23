@@ -9,6 +9,7 @@ PKG_URL="https://ftp.gnu.org/gnu/wget/wget-1.25.0.tar.gz"
 PKG_SHA256="SKIP"
 
 build() {
+    am_cv_func_iconv=no \
     OPENSSL_CFLAGS="-I${SYSROOT_PREFIX}/include" \
     OPENSSL_LIBS="-L${SYSROOT_PREFIX}/lib -lssl -lcrypto" \
     LIBS="-lssl -lcrypto -lz -lsocket" \
@@ -19,12 +20,14 @@ build() {
         --sysconfdir="${PREFIX}/etc" \
         --with-ssl=openssl \
         --with-openssl=yes \
-        --with-libssl-prefix="${SYSROOT_PREFIX}" \
         --with-zlib \
         --enable-pcre2 \
         --disable-pcre \
         --disable-iri \
         --disable-nls \
+        --disable-ntlm \
+        --disable-rpath \
+        --without-libiconv-prefix \
         --without-libpsl \
         --without-metalink
 

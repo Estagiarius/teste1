@@ -1,0 +1,12 @@
+--- a/rsync.h
++++ b/rsync.h
+@@ -512,6 +512,9 @@
+ #include <netdb.h>
+ #endif
+ #include <syslog.h>
++#if defined(__QNXNTO__) && !defined(AT_REMOVEDIR)
++#define AT_REMOVEDIR 0x200
++#endif
+ #ifdef HAVE_SYS_FILE_H
+ #include <sys/file.h>
+ #endif

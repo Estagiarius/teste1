@@ -26,17 +26,23 @@ build() {
         shared \
         zlib \
         no-tests \
+        no-docs \
+        no-quic \
+        no-legacy \
         no-async \
         no-afalgeng \
         no-devcryptoeng \
         no-dso \
         no-ui-console \
+        no-aria no-bf no-camellia no-cast no-idea no-md2 no-md4 no-mdc2 \
+        no-rc2 no-rc4 no-rc5 no-rmd160 no-seed no-sm2 no-sm3 no-sm4 no-whirlpool \
         -D__QNXNTO__ \
         -DNO_SYS_UN_H \
+        -DNO_SYSLOG \
         -Wl,-rpath,"${PREFIX}/lib" \
         -lsocket
 
-    make -j"${JOBS}" build_libs build_programs
+    make -j"${JOBS}" build_sw
 }
 
 install_staging() {

@@ -16,6 +16,8 @@ build() {
     (
         cd "${host_build}"
         env -u CFLAGS -u CXXFLAGS -u CPPFLAGS -u LDFLAGS -u LIBS \
+            -u CPP -u AR -u AS -u LD -u RANLIB -u STRIP -u NM \
+            -u PKG_CONFIG_LIBDIR -u PKG_CONFIG_SYSROOT_DIR \
             CC="${HOSTCC}" \
             "${SRC_DIR}/configure" \
                 --disable-shared \

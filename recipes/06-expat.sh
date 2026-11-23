@@ -9,6 +9,7 @@ PKG_URL="https://github.com/libexpat/libexpat/releases/download/R_2_10_0/expat-2
 PKG_SHA256="5466a341f9c692ef7a958a6881311be597f8e1ce345984cf78414f54793dea4c"
 
 build() {
+    CPPFLAGS="${CPPFLAGS} -DXML_DEV_URANDOM" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \

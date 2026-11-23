@@ -9,6 +9,7 @@ PKG_URL="https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz"
 PKG_SHA256="SKIP"
 
 build() {
+    CFLAGS="${CFLAGS} -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \

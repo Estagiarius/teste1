@@ -9,6 +9,8 @@ PKG_URL="https://ftp.gnu.org/gnu/gzip/gzip-1.13.tar.xz"
 PKG_SHA256="SKIP"
 
 build() {
+    ac_cv_func_stpcpy=no \
+    CFLAGS="${CFLAGS} -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -fno-builtin-stpcpy" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \

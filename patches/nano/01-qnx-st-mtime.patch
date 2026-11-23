@@ -1,0 +1,28 @@
+--- a/src/text.c
++++ b/src/text.c
+@@ -2133,8 +2133,13 @@
+ 			return;
+ 		}
+ 
++#ifdef __QNXNTO__
++		timestamp_sec = (long)fileinfo.st_mtime;
++		timestamp_nsec = 0;
++#else
+ 		timestamp_sec = (long)fileinfo.st_mtim.tv_sec;
+ 		timestamp_nsec = (long)fileinfo.st_mtim.tv_nsec;
++#endif
+ 	}
+ 
+ 	/* The spell checker needs the screen, so exit from curses mode. */
+@@ -2184,8 +2189,13 @@
+ 	/* When the temporary file wasn't touched, say so and leave. */
+ 	if (timestamp_sec > 0 && stat(tempfile_name, &fileinfo) == 0 &&
++#ifdef __QNXNTO__
++					(long)fileinfo.st_mtime == timestamp_sec) {
++#else
+ 					(long)fileinfo.st_mtim.tv_sec == timestamp_sec &&
+ 					(long)fileinfo.st_mtim.tv_nsec == timestamp_nsec) {
++#endif
+ 		statusline(REMARK, _("Nothing changed"));
+ 		return;
+ 	}

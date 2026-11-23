@@ -47,7 +47,7 @@ read_recipe_meta() {
         if [[ -z "${PKG_ID}" ]]; then
             PKG_ID="$(basename "${recipe}" | cut -d'-' -f1)"
         fi
-        printf '%s\t%s\t%s\t%s\t%s\t%s\n' \
+        printf '%s|%s|%s|%s|%s|%s\n' \
             "${PKG_ID}" "${PKG_NAME}" "${PKG_VER}" "${PKG_LAYER}" "${PKG_DEPS}" "${PKG_CRITICAL}"
     )
 }
@@ -159,7 +159,7 @@ STARTED=0
 [[ -z "${FROM_ID}" ]] && STARTED=1
 
 for recipe in "${RECIPES[@]}"; do
-    IFS=$'\t' read -r pkg_id pkg_name pkg_ver pkg_layer pkg_deps pkg_critical < <(read_recipe_meta "${recipe}")
+    IFS='|' read -r pkg_id pkg_name pkg_ver pkg_layer pkg_deps pkg_critical < <(read_recipe_meta "${recipe}")
 
     if [[ "${STARTED}" -eq 0 ]]; then
         if [[ "${pkg_id}" == "${FROM_ID}" ]]; then

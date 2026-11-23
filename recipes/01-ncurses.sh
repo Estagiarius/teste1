@@ -16,6 +16,8 @@ build() {
     (
         cd "${host_build}"
         env -u CFLAGS -u CXXFLAGS -u CPPFLAGS -u LDFLAGS -u LIBS \
+            -u CPP -u AR -u AS -u LD -u RANLIB -u STRIP -u NM \
+            -u PKG_CONFIG_LIBDIR -u PKG_CONFIG_SYSROOT_DIR \
             CC="${HOSTCC}" CXX="${HOSTCXX}" \
             "${SRC_DIR}/configure" \
                 --without-shared \
@@ -26,6 +28,7 @@ build() {
                 --without-tests \
                 --enable-widec
         make -j"${JOBS}" -C include
+        make -j"${JOBS}" -C ncurses
         make -j"${JOBS}" -C progs tic
     )
 
@@ -35,6 +38,9 @@ build() {
     mkdir -p "${cross_build}"
     cd "${cross_build}"
 
+    ac_cv_header_sys_termio_h=no \
+    ac_cv_header_termio_h=no \
+    ac_cv_header_search_h=no \
     "${SRC_DIR}/configure" \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \
@@ -48,6 +54,7 @@ build() {
         --without-tests \
         --without-manpages \
         --enable-widec \
+        --disable-ext-colors \
         --enable-pc-files \
         --with-pkg-config-libdir="${PREFIX}/lib/pkgconfig" \
         --with-build-cc="${HOSTCC}" \
@@ -81,6 +88,8 @@ install_staging() {
     done
     ln -sf "libncursesw.so" "${libdir}/libcurses.so"
     ln -sf "libncursesw.so" "${libdir}/libtinfo.so"
+    ln -sf "libncursesw.so" "${libdir}/libtermcap.so"
+    ln -sf "libncursesw.a" "${libdir}/libtermcap.a"
 
     if [[ -d "${incdir}/ncursesw" ]]; then
         for hdr in curses.h ncurses.h term.h termcap.h unctrl.h panel.h menu.h form.h; do
