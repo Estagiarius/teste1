@@ -1,0 +1,23 @@
+# Cache de downloads upstream
+downloads/*
+!downloads/.gitkeep
+
+# Raiz temporária de staging (DESTDIR)
+staging/*
+!staging/.gitkeep
+
+# Artefatos binários compactados (.zip)
+dist/*.zip
+dist/packages/*
+!dist/.gitkeep
+!dist/packages/.gitkeep
+
+# Logs individuais de build e validação
+logs/*.log
+!logs/.gitkeep
+
+# Arquivos temporários de editor/sistema
+*.swp
+*.swo
+*~
+.DS_Store
