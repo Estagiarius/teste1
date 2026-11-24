@@ -56,6 +56,9 @@ build() {
     py_cv_module_resource=n/a \
     CFLAGS="${CFLAGS} -DSA_ONSTACK=0 -DSA_RESTART=0 -D_Py_FORCE_UTF8_LOCALE" \
     PKG_CONFIG_LIBDIR="${SYSROOT_PREFIX}/lib/pkgconfig:${SYSROOT_PREFIX}/share/pkgconfig" \
+    OPENSSL_INCLUDES="-I${SYSROOT_PREFIX}/include" \
+    OPENSSL_LDFLAGS="-L${SYSROOT_PREFIX}/lib -Wl,-rpath,${PREFIX}/lib" \
+    OPENSSL_LIBS="-lssl -lcrypto -lz -lsocket" \
     LIBS="-lsocket -lm" \
     "${SRC_DIR}/configure" \
         --build="${BUILD_TRIPLE}" \

@@ -1,0 +1,22 @@
+--- a/src/tty.c
++++ b/src/tty.c
+@@ -101,6 +101,11 @@
+ 	FD_ZERO(&readfs);
+ 	FD_SET(tty->fdin, &readfs);
+ 
++#ifdef __QNXNTO__
++	(void)return_on_signal;
++	struct timeval tv = {timeout / 1000, (timeout % 1000) * 1000};
++	int err = select(tty->fdin + 1, &readfs, NULL, NULL, timeout < 0 ? NULL : &tv);
++#else
+ 	struct timespec ts = {timeout / 1000, (timeout % 1000) * 1000000};
+ 
+ 	sigset_t mask;
+@@ -115,6 +120,7 @@
+ 			NULL,
+ 			timeout < 0 ? NULL : &ts,
+ 			return_on_signal ? NULL : &mask);
++#endif
+ 
+ 	if (err < 0) {
+ 		if (errno == EINTR) {

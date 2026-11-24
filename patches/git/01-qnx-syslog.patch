@@ -1,0 +1,23 @@
+--- a/git-compat-util.h
++++ b/git-compat-util.h
+@@ -269,7 +269,20 @@
+ #include <assert.h>
+ #include <regex.h>
+ #include <utime.h>
++#ifndef __QNXNTO__
+ #include <syslog.h>
++#else
++#define LOG_PID 0x01
++#define LOG_DAEMON (3<<3)
++#define LOG_ERR 3
++#define LOG_WARNING 4
++#define LOG_NOTICE 5
++#define LOG_INFO 6
++#define LOG_DEBUG 7
++static inline void openlog(const char *i, int o, int f) { (void)i; (void)o; (void)f; }
++static inline void syslog(int p, const char *fmt, ...) { (void)p; (void)fmt; }
++static inline void closelog(void) {}
++#endif
+ #if !defined(NO_POLL_H)
+ #include <poll.h>
+ #elif !defined(NO_SYS_POLL_H)

@@ -1,0 +1,11 @@
+--- a/src/builtin.c
++++ b/src/builtin.c
+@@ -1,7 +1,7 @@
+ #if __SIZEOF_POINTER__==4
+ # define _TIME_BITS 64
+ #endif
+-#ifndef __sun__
++#if !defined(__sun__) && !defined(__QNXNTO__)
+ # define _XOPEN_SOURCE
+ # define _XOPEN_SOURCE_EXTENDED 1
+ #else

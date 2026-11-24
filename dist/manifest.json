@@ -2,10 +2,10 @@
   "target": "arm-blackberry-qnx8eabi",
   "prefix": "/accounts/1000/shared/misc/berrycore",
   "bundle": "berrycore-debian-suite-armv7le.zip",
-  "generated_at": "2026-11-24T17:32:26Z",
+  "generated_at": "2026-11-24T19:49:03Z",
   "summary": {
-    "total": 46,
-    "success": 46,
+    "total": 51,
+    "success": 51,
     "blocked": 0,
     "success_rate_pct": 100.0
   },
@@ -1217,6 +1217,127 @@
       ],
       "error_summary": null,
       "archive": "packages/whois-5.5.23-bb10-armv7le.zip"
+    },
+    {
+      "id": "60",
+      "name": "jq",
+      "version": "1.8.2",
+      "layer": 5,
+      "status": "SUCCESS",
+      "size_kb": 2033,
+      "binaries": [
+        "bin/jq"
+      ],
+      "libraries": [
+        "lib/libjq.so.1",
+        "lib/libonig.so.10"
+      ],
+      "needed": [
+        "libc.so.3",
+        "libjq.so.1",
+        "libm.so.2",
+        "libonig.so.10",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/jq/01-qnx-xopen-source.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/jq-1.8.2-bb10-armv7le.zip"
+    },
+    {
+      "id": "61",
+      "name": "fzy",
+      "version": "1.1",
+      "layer": 5,
+      "status": "SUCCESS",
+      "size_kb": 26,
+      "binaries": [
+        "bin/fzy"
+      ],
+      "libraries": [],
+      "needed": [
+        "libc.so.3",
+        "libm.so.2",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/fzy/01-qnx-tty-time.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/fzy-1.1-bb10-armv7le.zip"
+    },
+    {
+      "id": "62",
+      "name": "ncdu",
+      "version": "1.21",
+      "layer": 5,
+      "status": "SUCCESS",
+      "size_kb": 75,
+      "binaries": [
+        "bin/ncdu"
+      ],
+      "libraries": [],
+      "needed": [
+        "libc.so.3",
+        "libncursesw.so.6",
+        "libsocket.so.3"
+      ],
+      "patches": [],
+      "error_summary": null,
+      "archive": "packages/ncdu-1.21-bb10-armv7le.zip"
+    },
+    {
+      "id": "64",
+      "name": "git",
+      "version": "2.47.1",
+      "layer": 5,
+      "status": "SUCCESS",
+      "size_kb": 17726,
+      "binaries": [
+        "bin/git",
+        "bin/git-shell",
+        "bin/scalar",
+        "libexec/git-core/git",
+        "libexec/git-core/git-daemon",
+        "libexec/git-core/git-http-backend",
+        "libexec/git-core/git-http-fetch",
+        "libexec/git-core/git-imap-send",
+        "libexec/git-core/git-remote-http",
+        "libexec/git-core/git-sh-i18n--envsubst",
+        "libexec/git-core/git-shell",
+        "libexec/git-core/scalar"
+      ],
+      "libraries": [],
+      "needed": [
+        "libc.so.3",
+        "libcrypto.so.3",
+        "libcurl.so.12",
+        "libnghttp2.so.14",
+        "libsocket.so.3",
+        "libssl.so.3",
+        "libz.so"
+      ],
+      "patches": [
+        "patches/git/01-qnx-syslog.patch",
+        "patches/git/02-qnx-test-delay.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/git-2.47.1-bb10-armv7le.zip"
+    },
+    {
+      "id": "65",
+      "name": "q5-ux",
+      "version": "1.0.0",
+      "layer": 5,
+      "status": "SUCCESS",
+      "size_kb": 13,
+      "binaries": [],
+      "libraries": [],
+      "needed": [],
+      "patches": [],
+      "error_summary": null,
+      "archive": "packages/q5-ux-1.0.0-bb10-armv7le.zip"
     }
   ]
 }

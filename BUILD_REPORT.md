@@ -1,10 +1,10 @@
 # Relatório Final de Build — Debian-to-BerryCore (BlackBerry Q5 / QNX Neutrino)
 
-- **Gerado em:** `2026-11-24T17:32:26Z`
+- **Gerado em:** `2026-11-24T19:49:03Z`
 - **Alvo (Target Triple):** `arm-blackberry-qnx8eabi` (`armv7le`, softfp)
 - **Prefixo no Dispositivo (`PREFIX`):** `/accounts/1000/shared/misc/berrycore`
 - **Bundle Consolidado:** `dist/berrycore-debian-suite-armv7le.zip`
-- **Taxa de Sucesso:** **46/46 (100.0%)** | Bloqueados: **0**
+- **Taxa de Sucesso:** **51/51 (100.0%)** | Bloqueados: **0**
 
 ## Pacotes Compilados e Status por Camada
 
@@ -56,6 +56,11 @@
 | `53` | 4 | `mutt` | `2.2.13` | **SUCCESS** | 5649 | `mutt`, `mutt_pgpring`, `pgpewrap` |
 | `54` | 4 | `netcat-openbsd` | `0.7.1` | **SUCCESS** | 49 | `netcat` |
 | `55` | 4 | `whois` | `5.5.23` | **SUCCESS** | 81 | `whois` |
+| `60` | 5 | `jq` | `1.8.2` | **SUCCESS** | 2033 | `jq` |
+| `61` | 5 | `fzy` | `1.1` | **SUCCESS** | 26 | `fzy` |
+| `62` | 5 | `ncdu` | `1.21` | **SUCCESS** | 75 | `ncdu` |
+| `64` | 5 | `git` | `2.47.1` | **SUCCESS** | 17726 | `git`, `git-shell`, `scalar`, `git`, `git-daemon`, `git-http-backend` (+6) |
+| `65` | 5 | `q5-ux` | `1.0.0` | **SUCCESS** | 13 | — |
 
 ## Patches QNX Versionados (`patches/`)
 
@@ -72,8 +77,12 @@
 - `patches/findutils/02-qnx-fdleak-time.patch`
 - `patches/findutils/03-qnx-pselect-time.patch`
 - `patches/findutils/04-qnx-stpcpy-chk.patch`
+- `patches/fzy/01-qnx-tty-time.patch`
+- `patches/git/01-qnx-syslog.patch`
+- `patches/git/02-qnx-test-delay.patch`
 - `patches/grep/01-qnx-sigsegv-time.patch`
 - `patches/grep/02-qnx-pselect-time.patch`
+- `patches/jq/01-qnx-xopen-source.patch`
 - `patches/libevent/01-qnx-sa-restart.patch`
 - `patches/libevent/02-qnx-syslog.patch`
 - `patches/nano/01-qnx-st-mtime.patch`

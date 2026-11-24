@@ -1,0 +1,12 @@
+--- a/t/helper/test-rot13-filter.c
++++ b/t/helper/test-rot13-filter.c
+@@ -44,6 +44,9 @@
+ 
+ static FILE *logfile;
+ static int always_delay, has_clean_cap, has_smudge_cap;
++#ifdef __QNXNTO__
++#define delay git_test_delay
++#endif
+ static struct strmap delay = STRMAP_INIT;
+ 
+ static inline const char *str_or_null(const char *str)
