@@ -69,9 +69,9 @@ flowchart TD
 | Fase 1 | Motor de Build e Validação (`scripts/`) | Sim (Gate 1) | `[x]` |
 | Fase 2 — Camada 0 | Bibliotecas de Fundação (9 pacotes) | Sim (100% obrigatório) | `[x]` |
 | Fase 2 — Camada 1 | Pilha Criptográfica e Rede (6 pacotes) | Sim (100% obrigatórios) | `[x]` |
-| Fase 2 — Camada 2 | Compressão e Núcleo POSIX/GNU (17 pacotes) | Parcial (isolamento) | `[x]` (12/17 SUCCESS, 5 BLOCKED) |
-| Fase 2 — Camada 3 | Shell, Multiplexador e Teclado Q5 (8 pacotes) | Parcial (isolamento) | `[x]` (3/8 SUCCESS, 5 BLOCKED) |
-| Fase 2 — Camada 4 | Interpretadores e Clientes Avançados (6 pacotes) | Parcial (isolamento) | `[x]` (3/6 SUCCESS, 3 BLOCKED) |
+| Fase 2 — Camada 2 | Compressão e Núcleo POSIX/GNU (17 pacotes) | Parcial (isolamento) | `[x]` (17/17 SUCCESS, 0 BLOCKED) |
+| Fase 2 — Camada 3 | Shell, Multiplexador e Teclado Q5 (8 pacotes) | Parcial (isolamento) | `[x]` (8/8 SUCCESS, 0 BLOCKED) |
+| Fase 2 — Camada 4 | Interpretadores e Clientes Avançados (6 pacotes) | Parcial (isolamento) | `[x]` (6/6 SUCCESS, 0 BLOCKED) |
 | Fase 4 | Empacotamento, Metadados e Relatório | Sim (Gate 4) | `[x]` |
 | Fase 5 | Auditoria Final (Definition of Done) | Sim (Gate Global) | `[x]` |
 
@@ -257,16 +257,16 @@ Executado dentro do contêiner recém-construído:
 - [x] **C2.0** `recipes/20-bzip2.sh` — `bzip2` `1.0.8` (`SUCCESS`, 198 KB)
 - [x] **C2.1** `recipes/21-xz.sh` — `xz-utils` `5.8.4` (`SUCCESS`, 813 KB)
 - [x] **C2.2** `recipes/22-gzip.sh` — `gzip` `1.13` (`SUCCESS`, 214 KB)
-- [!] **C2.3** `recipes/23-tar.sh` — `tar` `1.35` (`BLOCKED` após 3 ciclos — `logs/tar-error.log`; patch `01-qnx-makedev.patch`)
+- [x] **C2.3** `recipes/23-tar.sh` — `tar` `1.35` (`SUCCESS`; patches `01-qnx-makedev.patch`, `02-qnx-stpcpy-chk.patch`)
 - [x] **C2.4** `recipes/24-zip.sh` — `zip` `3.0` (`SUCCESS`, 384 KB)
 - [x] **C2.5** `recipes/25-unzip.sh` — `unzip` `6.0` (`SUCCESS`, 185 KB)
-- [!] **C2.6** `recipes/26-diffutils.sh` — `diffutils` `3.10` (`BLOCKED` após 3 ciclos — `logs/diffutils-error.log`)
+- [x] **C2.6** `recipes/26-diffutils.sh` — `diffutils` `3.10` (`SUCCESS`; patches `01-qnx-sigsegv-time.patch`, `02-qnx-pselect-time.patch`)
 - [x] **C2.7** `recipes/27-patch.sh` — `patch` `2.7.6` (`SUCCESS`, 210 KB)
 - [x] **C2.8** `recipes/28-sed.sh` — `sed` `4.9` (`SUCCESS`, 352 KB; patch `01-qnx-pselect-time.patch`)
 - [x] **C2.9** `recipes/29-mawk.sh` — `mawk` `1.3.4-20250131` (`SUCCESS`, 234 KB)
-- [!] **C2.10** `recipes/30-grep.sh` — `grep` `3.11` (`BLOCKED` após 3 ciclos — `logs/grep-error.log`)
-- [!] **C2.11** `recipes/31-findutils.sh` — `findutils` `4.10.0` (`BLOCKED` após 3 ciclos — `logs/findutils-error.log`)
-- [!] **C2.12** `recipes/32-coreutils.sh` — `coreutils` `9.5` (`BLOCKED` após 3 ciclos — `logs/coreutils-error.log`)
+- [x] **C2.10** `recipes/30-grep.sh` — `grep` `3.11` (`SUCCESS`; patches `01-qnx-sigsegv-time.patch`, `02-qnx-pselect-time.patch`)
+- [x] **C2.11** `recipes/31-findutils.sh` — `findutils` `4.10.0` (`SUCCESS`; patches `01-qnx-mountlist.patch`, `02-qnx-fdleak-time.patch`, `03-qnx-pselect-time.patch`, `04-qnx-stpcpy-chk.patch`)
+- [x] **C2.12** `recipes/32-coreutils.sh` — `coreutils` `9.5` (`SUCCESS`; patches `01-qnx-mountlist.patch`, `02-qnx-pselect-time.patch`, `03-qnx-boot-time-aux.patch`, `04-qnx-mknod-makedev.patch`)
 - [x] **C2.13** `recipes/33-less.sh` — `less` `668` (`SUCCESS`, 346 KB)
 - [x] **C2.14** `recipes/34-file.sh` — `file` `5.46` (`SUCCESS`, 10542 KB)
 - [x] **C2.15** `recipes/35-tree.sh` — `tree` `2.3.2` (`SUCCESS`, 88 KB; patch `01-qnx-langinfo.patch`)
@@ -283,12 +283,12 @@ Executado dentro do contêiner recém-construído:
 
 **Pré-requisito:** `GATE-C2` concluído.
 
-- [!] **C3.0** `recipes/40-dash.sh` — `dash` `0.5.12` (`BLOCKED` após 3 ciclos — `logs/dash-error.log`; patch `01-qnx-flushall.patch`)
-- [!] **C3.1** `recipes/41-bash.sh` — `bash` `5.2.37` (`BLOCKED` após 3 ciclos — `logs/bash-error.log`)
-- [!] **C3.2** `recipes/42-tmux.sh` — `tmux` `3.5a` (`BLOCKED` após 3 ciclos — `logs/tmux-error.log`)
-- [!] **C3.3** `recipes/43-nano.sh` — `nano` `8.3` (`BLOCKED` após 3 ciclos — `logs/nano-error.log`; patch `01-qnx-st-mtime.patch`)
+- [x] **C3.0** `recipes/40-dash.sh` — `dash` `0.5.12` (`SUCCESS`; patches `01-qnx-flushall.patch`, `02-qnx-stpncpy.patch`)
+- [x] **C3.1** `recipes/41-bash.sh` — `bash` `5.2.37` (`SUCCESS`; sem `-lunix`/`-liconv`)
+- [x] **C3.2** `recipes/42-tmux.sh` — `tmux` `3.5a` (`SUCCESS`; patches `01-qnx-langinfo.patch`, `02-qnx-iov-max.patch`)
+- [x] **C3.3** `recipes/43-nano.sh` — `nano` `8.3` (`SUCCESS`; patch `01-qnx-st-mtime.patch`)
 - [x] **C3.4** `recipes/44-vim.sh` — `vim` `9.1.1000` (`SUCCESS`, 30936 KB; patch `01-qnx-no-photon.patch`)
-- [!] **C3.5** `recipes/45-bc.sh` — `bc` `1.07.1` (`BLOCKED` após 3 ciclos — `logs/bc-error.log`)
+- [x] **C3.5** `recipes/45-bc.sh` — `bc` `1.07.1` (`SUCCESS`; `fbc` host + `libmath.h.prebuilt`)
 - [x] **C3.6** `recipes/46-time.sh` — `time` `1.9` (`SUCCESS`, 69 KB)
 - [x] **C3.7** `recipes/47-gettext-base.sh` — `gettext-base` `0.22.5` (`SUCCESS`, 202 KB)
 
@@ -303,12 +303,12 @@ Executado dentro do contêiner recém-construído:
 
 **Pré-requisito:** `GATE-C3` concluído.
 
-- [!] **C4.0** `recipes/50-python3.sh` — `python3` `3.12.8` (`BLOCKED` após 3 ciclos — `logs/python3-error.log`; patch `01-qnx-cross-machdep.patch`)
+- [x] **C4.0** `recipes/50-python3.sh` — `python3` `3.12.8` (`SUCCESS`; patches `01-qnx-cross-machdep.patch`, `02-qnx-posixmodule.patch`, `-D_Py_FORCE_UTF8_LOCALE`, `LINKCC=$(CC)`)
 - [x] **C4.1** `recipes/51-bdwgc.sh` — `bdwgc` `8.2.8` (`SUCCESS`, 840 KB)
-- [!] **C4.2** `recipes/52-w3m.sh` — `w3m` `0.5.3-git20230121` (`BLOCKED` após 3 ciclos — `logs/w3m-error.log`)
+- [x] **C4.2** `recipes/52-w3m.sh` — `w3m` `0.5.3-git20230121` (`SUCCESS`; `bdwgc` `HEURISTIC2` + `host-mktable`)
 - [x] **C4.3** `recipes/53-mutt.sh` — `mutt` `2.2.13` (`SUCCESS`, 5789 KB)
 - [x] **C4.4** `recipes/54-netcat-openbsd.sh` — `netcat-openbsd` `0.7.1` (`SUCCESS`, 60 KB)
-- [!] **C4.5** `recipes/55-whois.sh` — `whois` `5.5.23` (`BLOCKED` após 3 ciclos — `logs/whois-error.log`)
+- [x] **C4.5** `recipes/55-whois.sh` — `whois` `5.5.23` (`SUCCESS`; patch `01-qnx-no-xopen-conflict.patch`)
 
 #### Gate Camada 4
 - [x] **GATE-C4.1** `scripts/verify-elf.sh ${SYSROOT_PREFIX}` retornou `0` erros em todos os binários e bibliotecas dinâmicas (`analisados=77 aprovados=77 falhas=0`).

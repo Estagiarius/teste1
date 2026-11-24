@@ -2,12 +2,12 @@
   "target": "arm-blackberry-qnx8eabi",
   "prefix": "/accounts/1000/shared/misc/berrycore",
   "bundle": "berrycore-debian-suite-armv7le.zip",
-  "generated_at": "2026-11-23T20:55:35Z",
+  "generated_at": "2026-11-24T17:32:26Z",
   "summary": {
     "total": 46,
-    "success": 33,
-    "blocked": 13,
-    "success_rate_pct": 71.74
+    "success": 46,
+    "blocked": 0,
+    "success_rate_pct": 100.0
   },
   "packages": [
     {
@@ -435,13 +435,22 @@
       "name": "tar",
       "version": "1.35",
       "layer": 2,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 1040,
+      "binaries": [
+        "bin/tar"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/tar-error.log"
+      "needed": [
+        "libc.so.3",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/tar/01-qnx-makedev.patch",
+        "patches/tar/02-qnx-stpcpy-chk.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/tar-1.35-bb10-armv7le.zip"
     },
     {
       "id": "24",
@@ -492,13 +501,25 @@
       "name": "diffutils",
       "version": "3.10",
       "layer": 2,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 452,
+      "binaries": [
+        "bin/cmp",
+        "bin/diff",
+        "bin/diff3",
+        "bin/sdiff"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/diffutils-error.log"
+      "needed": [
+        "libc.so.3",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/diffutils/01-qnx-sigsegv-time.patch",
+        "patches/diffutils/02-qnx-pselect-time.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/diffutils-3.10-bb10-armv7le.zip"
     },
     {
       "id": "27",
@@ -565,39 +586,169 @@
       "name": "grep",
       "version": "3.11",
       "layer": 2,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 317,
+      "binaries": [
+        "bin/grep"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/grep-error.log"
+      "needed": [
+        "libc.so.3",
+        "libpcre2-8.so.16",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/grep/01-qnx-sigsegv-time.patch",
+        "patches/grep/02-qnx-pselect-time.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/grep-3.11-bb10-armv7le.zip"
     },
     {
       "id": "31",
       "name": "findutils",
       "version": "4.10.0",
       "layer": 2,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 934,
+      "binaries": [
+        "bin/find",
+        "bin/locate",
+        "bin/xargs",
+        "libexec/frcode"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/findutils-error.log"
+      "needed": [
+        "libc.so.3",
+        "libm.so.2",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/findutils/01-qnx-mountlist.patch",
+        "patches/findutils/02-qnx-fdleak-time.patch",
+        "patches/findutils/03-qnx-pselect-time.patch",
+        "patches/findutils/04-qnx-stpcpy-chk.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/findutils-4.10.0-bb10-armv7le.zip"
     },
     {
       "id": "32",
       "name": "coreutils",
       "version": "9.5",
       "layer": 2,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 7444,
+      "binaries": [
+        "bin/[",
+        "bin/b2sum",
+        "bin/base32",
+        "bin/base64",
+        "bin/basename",
+        "bin/basenc",
+        "bin/cat",
+        "bin/chgrp",
+        "bin/chmod",
+        "bin/chown",
+        "bin/chroot",
+        "bin/cksum",
+        "bin/comm",
+        "bin/cp",
+        "bin/csplit",
+        "bin/cut",
+        "bin/date",
+        "bin/dd",
+        "bin/dir",
+        "bin/dircolors",
+        "bin/dirname",
+        "bin/du",
+        "bin/echo",
+        "bin/env",
+        "bin/expand",
+        "bin/expr",
+        "bin/factor",
+        "bin/false",
+        "bin/fmt",
+        "bin/fold",
+        "bin/groups",
+        "bin/head",
+        "bin/id",
+        "bin/install",
+        "bin/join",
+        "bin/link",
+        "bin/ln",
+        "bin/logname",
+        "bin/ls",
+        "bin/md5sum",
+        "bin/mkdir",
+        "bin/mkfifo",
+        "bin/mknod",
+        "bin/mktemp",
+        "bin/mv",
+        "bin/nl",
+        "bin/nohup",
+        "bin/nproc",
+        "bin/numfmt",
+        "bin/od",
+        "bin/paste",
+        "bin/pathchk",
+        "bin/pr",
+        "bin/printenv",
+        "bin/printf",
+        "bin/ptx",
+        "bin/pwd",
+        "bin/readlink",
+        "bin/realpath",
+        "bin/rm",
+        "bin/rmdir",
+        "bin/seq",
+        "bin/sha1sum",
+        "bin/sha224sum",
+        "bin/sha256sum",
+        "bin/sha384sum",
+        "bin/sha512sum",
+        "bin/shred",
+        "bin/shuf",
+        "bin/sleep",
+        "bin/sort",
+        "bin/split",
+        "bin/stat",
+        "bin/stty",
+        "bin/sum",
+        "bin/sync",
+        "bin/tac",
+        "bin/tail",
+        "bin/tee",
+        "bin/test",
+        "bin/timeout",
+        "bin/touch",
+        "bin/tr",
+        "bin/true",
+        "bin/truncate",
+        "bin/tsort",
+        "bin/tty",
+        "bin/uname",
+        "bin/unexpand",
+        "bin/uniq",
+        "bin/unlink",
+        "bin/vdir",
+        "bin/wc",
+        "bin/whoami",
+        "bin/yes"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/coreutils-error.log"
+      "needed": [
+        "libc.so.3",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/coreutils/01-qnx-mountlist.patch",
+        "patches/coreutils/02-qnx-pselect-time.patch",
+        "patches/coreutils/03-qnx-boot-time-aux.patch",
+        "patches/coreutils/04-qnx-mknod-makedev.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/coreutils-9.5-bb10-armv7le.zip"
     },
     {
       "id": "33",
@@ -693,54 +844,89 @@
       "name": "dash",
       "version": "0.5.12",
       "layer": 3,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 136,
+      "binaries": [
+        "bin/dash"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/dash-error.log"
+      "needed": [
+        "libc.so.3",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/dash/01-qnx-flushall.patch",
+        "patches/dash/02-qnx-stpncpy.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/dash-0.5.12-bb10-armv7le.zip"
     },
     {
       "id": "41",
       "name": "bash",
       "version": "5.2.37",
       "layer": 3,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 3513,
+      "binaries": [
+        "bin/bash"
+      ],
       "libraries": [],
-      "needed": [],
+      "needed": [
+        "libc.so.3",
+        "libncursesw.so.6",
+        "libsocket.so.3"
+      ],
       "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/bash-error.log"
+      "error_summary": null,
+      "archive": "packages/bash-5.2.37-bb10-armv7le.zip"
     },
     {
       "id": "42",
       "name": "tmux",
       "version": "3.5a",
       "layer": 3,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 797,
+      "binaries": [
+        "bin/tmux"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/tmux-error.log"
+      "needed": [
+        "libc.so.3",
+        "libevent_core-2.1.so.7",
+        "libm.so.2",
+        "libncursesw.so.6",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/tmux/01-qnx-langinfo.patch",
+        "patches/tmux/02-qnx-iov-max.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/tmux-3.5a-bb10-armv7le.zip"
     },
     {
       "id": "43",
       "name": "nano",
       "version": "8.3",
       "layer": 3,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 589,
+      "binaries": [
+        "bin/nano"
+      ],
       "libraries": [],
-      "needed": [],
+      "needed": [
+        "libc.so.3",
+        "libncursesw.so.6",
+        "libsocket.so.3"
+      ],
       "patches": [
         "patches/nano/01-qnx-st-mtime.patch"
       ],
-      "error_summary": "Falha no build/validação; consultar logs/nano-error.log"
+      "error_summary": null,
+      "archive": "packages/nano-8.3-bb10-armv7le.zip"
     },
     {
       "id": "44",
@@ -771,13 +957,21 @@
       "name": "bc",
       "version": "1.07.1",
       "layer": 3,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 329,
+      "binaries": [
+        "bin/bc",
+        "bin/dc"
+      ],
       "libraries": [],
-      "needed": [],
+      "needed": [
+        "libc.so.3",
+        "libncursesw.so.6",
+        "libsocket.so.3"
+      ],
       "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/bc-error.log"
+      "error_summary": null,
+      "archive": "packages/bc-1.07.1-bb10-armv7le.zip"
     },
     {
       "id": "46",
@@ -824,13 +1018,91 @@
       "name": "python3",
       "version": "3.12.8",
       "layer": 4,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
-      "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/python3-error.log"
+      "status": "SUCCESS",
+      "size_kb": 140112,
+      "binaries": [
+        "bin/python3.12"
+      ],
+      "libraries": [
+        "lib/python3.12/config-3.12/python.o",
+        "lib/python3.12/lib-dynload/_asyncio.cpython-312.so",
+        "lib/python3.12/lib-dynload/_bisect.cpython-312.so",
+        "lib/python3.12/lib-dynload/_blake2.cpython-312.so",
+        "lib/python3.12/lib-dynload/_bz2.cpython-312.so",
+        "lib/python3.12/lib-dynload/_codecs_cn.cpython-312.so",
+        "lib/python3.12/lib-dynload/_codecs_hk.cpython-312.so",
+        "lib/python3.12/lib-dynload/_codecs_iso2022.cpython-312.so",
+        "lib/python3.12/lib-dynload/_codecs_jp.cpython-312.so",
+        "lib/python3.12/lib-dynload/_codecs_kr.cpython-312.so",
+        "lib/python3.12/lib-dynload/_codecs_tw.cpython-312.so",
+        "lib/python3.12/lib-dynload/_contextvars.cpython-312.so",
+        "lib/python3.12/lib-dynload/_crypt.cpython-312.so",
+        "lib/python3.12/lib-dynload/_csv.cpython-312.so",
+        "lib/python3.12/lib-dynload/_ctypes.cpython-312.so",
+        "lib/python3.12/lib-dynload/_curses.cpython-312.so",
+        "lib/python3.12/lib-dynload/_curses_panel.cpython-312.so",
+        "lib/python3.12/lib-dynload/_datetime.cpython-312.so",
+        "lib/python3.12/lib-dynload/_decimal.cpython-312.so",
+        "lib/python3.12/lib-dynload/_elementtree.cpython-312.so",
+        "lib/python3.12/lib-dynload/_heapq.cpython-312.so",
+        "lib/python3.12/lib-dynload/_json.cpython-312.so",
+        "lib/python3.12/lib-dynload/_lsprof.cpython-312.so",
+        "lib/python3.12/lib-dynload/_lzma.cpython-312.so",
+        "lib/python3.12/lib-dynload/_md5.cpython-312.so",
+        "lib/python3.12/lib-dynload/_multibytecodec.cpython-312.so",
+        "lib/python3.12/lib-dynload/_multiprocessing.cpython-312.so",
+        "lib/python3.12/lib-dynload/_opcode.cpython-312.so",
+        "lib/python3.12/lib-dynload/_pickle.cpython-312.so",
+        "lib/python3.12/lib-dynload/_posixshmem.cpython-312.so",
+        "lib/python3.12/lib-dynload/_posixsubprocess.cpython-312.so",
+        "lib/python3.12/lib-dynload/_queue.cpython-312.so",
+        "lib/python3.12/lib-dynload/_random.cpython-312.so",
+        "lib/python3.12/lib-dynload/_sha1.cpython-312.so",
+        "lib/python3.12/lib-dynload/_sha2.cpython-312.so",
+        "lib/python3.12/lib-dynload/_sha3.cpython-312.so",
+        "lib/python3.12/lib-dynload/_socket.cpython-312.so",
+        "lib/python3.12/lib-dynload/_sqlite3.cpython-312.so",
+        "lib/python3.12/lib-dynload/_statistics.cpython-312.so",
+        "lib/python3.12/lib-dynload/_struct.cpython-312.so",
+        "lib/python3.12/lib-dynload/_xxinterpchannels.cpython-312.so",
+        "lib/python3.12/lib-dynload/_xxsubinterpreters.cpython-312.so",
+        "lib/python3.12/lib-dynload/_zoneinfo.cpython-312.so",
+        "lib/python3.12/lib-dynload/array.cpython-312.so",
+        "lib/python3.12/lib-dynload/audioop.cpython-312.so",
+        "lib/python3.12/lib-dynload/binascii.cpython-312.so",
+        "lib/python3.12/lib-dynload/cmath.cpython-312.so",
+        "lib/python3.12/lib-dynload/fcntl.cpython-312.so",
+        "lib/python3.12/lib-dynload/grp.cpython-312.so",
+        "lib/python3.12/lib-dynload/math.cpython-312.so",
+        "lib/python3.12/lib-dynload/mmap.cpython-312.so",
+        "lib/python3.12/lib-dynload/pyexpat.cpython-312.so",
+        "lib/python3.12/lib-dynload/readline.cpython-312.so",
+        "lib/python3.12/lib-dynload/select.cpython-312.so",
+        "lib/python3.12/lib-dynload/termios.cpython-312.so",
+        "lib/python3.12/lib-dynload/unicodedata.cpython-312.so",
+        "lib/python3.12/lib-dynload/xxlimited.cpython-312.so",
+        "lib/python3.12/lib-dynload/xxlimited_35.cpython-312.so",
+        "lib/python3.12/lib-dynload/zlib.cpython-312.so"
+      ],
+      "needed": [
+        "libbz2.so.1.0",
+        "libc.so.3",
+        "libexpat.so.1",
+        "libffi.so.8",
+        "liblzma.so.5",
+        "libm.so.2",
+        "libncursesw.so.6",
+        "libpanelw.so.6",
+        "libsocket.so.3",
+        "libsqlite3.so.8",
+        "libz.so"
+      ],
+      "patches": [
+        "patches/python3/01-qnx-cross-machdep.patch",
+        "patches/python3/02-qnx-posixmodule.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/python3-3.12.8-bb10-armv7le.zip"
     },
     {
       "id": "51",
@@ -838,7 +1110,7 @@
       "version": "8.2.8",
       "layer": 4,
       "status": "SUCCESS",
-      "size_kb": 792,
+      "size_kb": 796,
       "binaries": [],
       "libraries": [
         "lib/libcord.so.6",
@@ -849,7 +1121,9 @@
         "libgc.so.6",
         "libsocket.so.3"
       ],
-      "patches": [],
+      "patches": [
+        "patches/bdwgc/01-qnx-arm32-stackbottom.patch"
+      ],
       "error_summary": null,
       "archive": "packages/bdwgc-8.2.8-bb10-armv7le.zip"
     },
@@ -858,13 +1132,26 @@
       "name": "w3m",
       "version": "0.5.3-git20230121",
       "layer": 4,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 719,
+      "binaries": [
+        "bin/w3m",
+        "libexec/w3m/cgi-bin/w3mbookmark",
+        "libexec/w3m/cgi-bin/w3mhelperpanel",
+        "libexec/w3m/inflate"
+      ],
       "libraries": [],
-      "needed": [],
+      "needed": [
+        "libc.so.3",
+        "libgc.so.6",
+        "libm.so.2",
+        "libncursesw.so.6",
+        "libsocket.so.3",
+        "libz.so"
+      ],
       "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/w3m-error.log"
+      "error_summary": null,
+      "archive": "packages/w3m-0.5.3-git20230121-bb10-armv7le.zip"
     },
     {
       "id": "53",
@@ -915,13 +1202,21 @@
       "name": "whois",
       "version": "5.5.23",
       "layer": 4,
-      "status": "BLOCKED",
-      "size_kb": 0,
-      "binaries": [],
+      "status": "SUCCESS",
+      "size_kb": 81,
+      "binaries": [
+        "bin/whois"
+      ],
       "libraries": [],
-      "needed": [],
-      "patches": [],
-      "error_summary": "Falha no build/validação; consultar logs/whois-error.log"
+      "needed": [
+        "libc.so.3",
+        "libsocket.so.3"
+      ],
+      "patches": [
+        "patches/whois/01-qnx-no-xopen-conflict.patch"
+      ],
+      "error_summary": null,
+      "archive": "packages/whois-5.5.23-bb10-armv7le.zip"
     }
   ]
 }

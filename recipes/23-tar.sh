@@ -10,11 +10,14 @@ PKG_SHA256="SKIP"
 
 build() {
     FORCE_UNSAFE_CONFIGURE=1 \
+    am_cv_func_iconv=no \
+    CFLAGS="${CFLAGS} -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \
         --prefix="${PREFIX}" \
         --disable-nls \
+        --without-libiconv-prefix \
         --without-selinux \
         --without-posix-acls \
         --without-xattrs \

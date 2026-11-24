@@ -1,0 +1,14 @@
+--- a/compat/imsg-buffer.c
++++ b/compat/imsg-buffer.c
+@@ -23,6 +23,11 @@
+ #include <arpa/inet.h>
+ 
+ #include <limits.h>
++#ifdef __QNXNTO__
++#ifndef IOV_MAX
++#define IOV_MAX 1024
++#endif
++#endif
+ #include <errno.h>
+ #include <stdint.h>
+ #include <stdlib.h>

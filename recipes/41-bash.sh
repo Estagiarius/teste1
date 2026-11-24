@@ -18,6 +18,7 @@ build() {
     bash_cv_ulimit_maxfds=yes \
     bash_cv_getcwd_malloc=yes \
     ac_cv_func_working_mktime=yes \
+    am_cv_func_iconv=no \
     LIBS="-lncursesw -lsocket" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
@@ -25,10 +26,12 @@ build() {
         --prefix="${PREFIX}" \
         --with-installed-readline="${SYSROOT_PREFIX}" \
         --without-bash-malloc \
+        --without-libiconv-prefix \
         --disable-nls \
         --enable-readline \
         --enable-history
 
+    sed -i 's/-lunix//g; s/-liconv//g' Makefile
     make -j"${JOBS}" CC_FOR_BUILD="${HOSTCC}" LOCAL_CFLAGS="" LOCAL_LDFLAGS="" LIBS_FOR_BUILD=""
 }
 

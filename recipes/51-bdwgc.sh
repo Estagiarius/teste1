@@ -9,7 +9,7 @@ PKG_URL="https://github.com/ivmai/bdwgc/releases/download/v8.2.8/gc-8.2.8.tar.gz
 PKG_SHA256="SKIP"
 
 build() {
-    CFLAGS="${CFLAGS} -include fcntl.h" \
+    CFLAGS="${CFLAGS} -include fcntl.h -DHEURISTIC2" \
     ./configure \
         --build="${BUILD_TRIPLE}" \
         --host="${TARGET}" \

@@ -1,10 +1,10 @@
 # Relatório Final de Build — Debian-to-BerryCore (BlackBerry Q5 / QNX Neutrino)
 
-- **Gerado em:** `2026-11-23T20:55:35Z`
+- **Gerado em:** `2026-11-24T17:32:26Z`
 - **Alvo (Target Triple):** `arm-blackberry-qnx8eabi` (`armv7le`, softfp)
 - **Prefixo no Dispositivo (`PREFIX`):** `/accounts/1000/shared/misc/berrycore`
 - **Bundle Consolidado:** `dist/berrycore-debian-suite-armv7le.zip`
-- **Taxa de Sucesso:** **33/46 (71.7%)** | Bloqueados: **13**
+- **Taxa de Sucesso:** **46/46 (100.0%)** | Bloqueados: **0**
 
 ## Pacotes Compilados e Status por Camada
 
@@ -28,38 +28,52 @@
 | `20` | 2 | `bzip2` | `1.0.8` | **SUCCESS** | 178 | `bzip2`, `bzip2recover` |
 | `21` | 2 | `xz-utils` | `5.8.4` | **SUCCESS** | 753 | `lzmadec`, `lzmainfo`, `xz`, `xzdec` |
 | `22` | 2 | `gzip` | `1.13` | **SUCCESS** | 191 | `gzip` |
-| `23` | 2 | `tar` | `1.35` | **BLOCKED** | 0 | — |
+| `23` | 2 | `tar` | `1.35` | **SUCCESS** | 1040 | `tar` |
 | `24` | 2 | `zip` | `3.0` | **SUCCESS** | 323 | `zip`, `zipcloak`, `zipnote`, `zipsplit` |
 | `25` | 2 | `unzip` | `6.0` | **SUCCESS** | 185 | `funzip`, `unzip`, `unzipsfx` |
-| `26` | 2 | `diffutils` | `3.10` | **BLOCKED** | 0 | — |
+| `26` | 2 | `diffutils` | `3.10` | **SUCCESS** | 452 | `cmp`, `diff`, `diff3`, `sdiff` |
 | `27` | 2 | `patch` | `2.7.6` | **SUCCESS** | 173 | `patch` |
 | `28` | 2 | `sed` | `4.9` | **SUCCESS** | 321 | `sed` |
 | `29` | 2 | `mawk` | `1.3.4-20250131` | **SUCCESS** | 206 | `mawk` |
-| `30` | 2 | `grep` | `3.11` | **BLOCKED** | 0 | — |
-| `31` | 2 | `findutils` | `4.10.0` | **BLOCKED** | 0 | — |
-| `32` | 2 | `coreutils` | `9.5` | **BLOCKED** | 0 | — |
+| `30` | 2 | `grep` | `3.11` | **SUCCESS** | 317 | `grep` |
+| `31` | 2 | `findutils` | `4.10.0` | **SUCCESS** | 934 | `find`, `locate`, `xargs`, `frcode` |
+| `32` | 2 | `coreutils` | `9.5` | **SUCCESS** | 7444 | `[`, `b2sum`, `base32`, `base64`, `basename`, `basenc` (+89) |
 | `33` | 2 | `less` | `668` | **SUCCESS** | 284 | `less`, `lessecho`, `lesskey` |
 | `34` | 2 | `file` | `5.46` | **SUCCESS** | 10510 | `file` |
 | `35` | 2 | `tree` | `2.3.2` | **SUCCESS** | 73 | `tree` |
 | `36` | 2 | `xxd` | `9.2.1393` | **SUCCESS** | 15 | `xxd` |
-| `40` | 3 | `dash` | `0.5.12` | **BLOCKED** | 0 | — |
-| `41` | 3 | `bash` | `5.2.37` | **BLOCKED** | 0 | — |
-| `42` | 3 | `tmux` | `3.5a` | **BLOCKED** | 0 | — |
-| `43` | 3 | `nano` | `8.3` | **BLOCKED** | 0 | — |
+| `40` | 3 | `dash` | `0.5.12` | **SUCCESS** | 136 | `dash` |
+| `41` | 3 | `bash` | `5.2.37` | **SUCCESS** | 3513 | `bash` |
+| `42` | 3 | `tmux` | `3.5a` | **SUCCESS** | 797 | `tmux` |
+| `43` | 3 | `nano` | `8.3` | **SUCCESS** | 589 | `nano` |
 | `44` | 3 | `vim` | `9.1.1000` | **SUCCESS** | 30468 | `vim`, `xxd` |
-| `45` | 3 | `bc` | `1.07.1` | **BLOCKED** | 0 | — |
+| `45` | 3 | `bc` | `1.07.1` | **SUCCESS** | 329 | `bc`, `dc` |
 | `46` | 3 | `time` | `1.9` | **SUCCESS** | 61 | `time` |
 | `47` | 3 | `gettext-base` | `0.22.5` | **SUCCESS** | 174 | `envsubst`, `gettext`, `ngettext` |
-| `50` | 4 | `python3` | `3.12.8` | **BLOCKED** | 0 | — |
-| `51` | 4 | `bdwgc` | `8.2.8` | **SUCCESS** | 792 | — |
-| `52` | 4 | `w3m` | `0.5.3-git20230121` | **BLOCKED** | 0 | — |
+| `50` | 4 | `python3` | `3.12.8` | **SUCCESS** | 140112 | `python3.12` |
+| `51` | 4 | `bdwgc` | `8.2.8` | **SUCCESS** | 796 | — |
+| `52` | 4 | `w3m` | `0.5.3-git20230121` | **SUCCESS** | 719 | `w3m`, `w3mbookmark`, `w3mhelperpanel`, `inflate` |
 | `53` | 4 | `mutt` | `2.2.13` | **SUCCESS** | 5649 | `mutt`, `mutt_pgpring`, `pgpewrap` |
 | `54` | 4 | `netcat-openbsd` | `0.7.1` | **SUCCESS** | 49 | `netcat` |
-| `55` | 4 | `whois` | `5.5.23` | **BLOCKED** | 0 | — |
+| `55` | 4 | `whois` | `5.5.23` | **SUCCESS** | 81 | `whois` |
 
 ## Patches QNX Versionados (`patches/`)
 
+- `patches/bdwgc/01-qnx-arm32-stackbottom.patch`
+- `patches/coreutils/01-qnx-mountlist.patch`
+- `patches/coreutils/02-qnx-pselect-time.patch`
+- `patches/coreutils/03-qnx-boot-time-aux.patch`
+- `patches/coreutils/04-qnx-mknod-makedev.patch`
 - `patches/dash/01-qnx-flushall.patch`
+- `patches/dash/02-qnx-stpncpy.patch`
+- `patches/diffutils/01-qnx-sigsegv-time.patch`
+- `patches/diffutils/02-qnx-pselect-time.patch`
+- `patches/findutils/01-qnx-mountlist.patch`
+- `patches/findutils/02-qnx-fdleak-time.patch`
+- `patches/findutils/03-qnx-pselect-time.patch`
+- `patches/findutils/04-qnx-stpcpy-chk.patch`
+- `patches/grep/01-qnx-sigsegv-time.patch`
+- `patches/grep/02-qnx-pselect-time.patch`
 - `patches/libevent/01-qnx-sa-restart.patch`
 - `patches/libevent/02-qnx-syslog.patch`
 - `patches/nano/01-qnx-st-mtime.patch`
@@ -68,30 +82,23 @@
 - `patches/openssh-client/01-qnx-syslog.patch`
 - `patches/openssl/01-qnx-no-syslog.patch`
 - `patches/python3/01-qnx-cross-machdep.patch`
+- `patches/python3/02-qnx-posixmodule.patch`
 - `patches/readline/01-qnx-sigset.patch`
 - `patches/rsync/01-qnx-syslog.patch`
 - `patches/rsync/02-qnx-at-removedir.patch`
 - `patches/sed/01-qnx-pselect-time.patch`
 - `patches/tar/01-qnx-makedev.patch`
+- `patches/tar/02-qnx-stpcpy-chk.patch`
+- `patches/tmux/01-qnx-langinfo.patch`
+- `patches/tmux/02-qnx-iov-max.patch`
 - `patches/tree/01-qnx-langinfo.patch`
 - `patches/vim/01-qnx-no-photon.patch`
 - `patches/wget/01-qnx-pselect-time.patch`
+- `patches/whois/01-qnx-no-xopen-conflict.patch`
 
 ## Pacotes Bloqueados (`BLOCKED`)
 
-- **`tar` (1.35)** — Falha no build/validação; consultar logs/tar-error.log (`logs/tar-error.log`)
-- **`diffutils` (3.10)** — Falha no build/validação; consultar logs/diffutils-error.log (`logs/diffutils-error.log`)
-- **`grep` (3.11)** — Falha no build/validação; consultar logs/grep-error.log (`logs/grep-error.log`)
-- **`findutils` (4.10.0)** — Falha no build/validação; consultar logs/findutils-error.log (`logs/findutils-error.log`)
-- **`coreutils` (9.5)** — Falha no build/validação; consultar logs/coreutils-error.log (`logs/coreutils-error.log`)
-- **`dash` (0.5.12)** — Falha no build/validação; consultar logs/dash-error.log (`logs/dash-error.log`)
-- **`bash` (5.2.37)** — Falha no build/validação; consultar logs/bash-error.log (`logs/bash-error.log`)
-- **`tmux` (3.5a)** — Falha no build/validação; consultar logs/tmux-error.log (`logs/tmux-error.log`)
-- **`nano` (8.3)** — Falha no build/validação; consultar logs/nano-error.log (`logs/nano-error.log`)
-- **`bc` (1.07.1)** — Falha no build/validação; consultar logs/bc-error.log (`logs/bc-error.log`)
-- **`python3` (3.12.8)** — Falha no build/validação; consultar logs/python3-error.log (`logs/python3-error.log`)
-- **`w3m` (0.5.3-git20230121)** — Falha no build/validação; consultar logs/w3m-error.log (`logs/w3m-error.log`)
-- **`whois` (5.5.23)** — Falha no build/validação; consultar logs/whois-error.log (`logs/whois-error.log`)
+- Nenhum pacote bloqueado.
 
 ## Instruções de Instalação no BlackBerry Q5 (Term49)
 

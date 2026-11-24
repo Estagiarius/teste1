@@ -1,0 +1,12 @@
+--- a/lib/fdleak.c
++++ b/lib/fdleak.c
+@@ -28,6 +28,9 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #if HAVE_GETRLIMIT
++#ifdef __QNXNTO__
++# include <sys/time.h>
++#endif
+ # include <sys/resource.h>
+ #endif
+ #include <unistd.h>

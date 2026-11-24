@@ -1,0 +1,12 @@
+--- a/src/list.c
++++ b/src/list.c
+@@ -24,6 +24,9 @@
+ #include <quotearg.h>
+ #include <time.h>
+ #include "common.h"
++#ifdef __QNXNTO__
++char *__stpcpy_chk(char *dest, const char *src, size_t destlen) { (void)destlen; return stpcpy(dest, src); }
++#endif
+ 
+ union block *current_header;	/* points to current archive header */
+ enum archive_format current_format; /* recognized format */

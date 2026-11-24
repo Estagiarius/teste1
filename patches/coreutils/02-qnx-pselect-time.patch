@@ -1,0 +1,12 @@
+--- a/lib/pselect.c
++++ b/lib/pselect.c
+@@ -22,6 +22,9 @@
+ #include <config.h>
+ 
+ #include <sys/select.h>
++#ifdef __QNXNTO__
++#include <time.h>
++#endif
+ 
+ #include <errno.h>
+ #include <signal.h>

@@ -1,0 +1,12 @@
+--- a/find/pred.c
++++ b/find/pred.c
+@@ -45,6 +45,9 @@
+ 
+ /* find headers. */
+ #include "defs.h"
++#ifdef __QNXNTO__
++char *__stpcpy_chk(char *dest, const char *src, size_t destlen) { (void)destlen; return stpcpy(dest, src); }
++#endif
+ #include "dircallback.h"
+ #include "listfile.h"
+ #include "printquoted.h"

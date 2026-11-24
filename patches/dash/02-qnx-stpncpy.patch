@@ -1,0 +1,21 @@
+--- a/src/jobs.c
++++ b/src/jobs.c
+@@ -72,6 +72,18 @@
+ #include "mystring.h"
+ #include "system.h"
+ 
++#ifdef __QNXNTO__
++static char *qnx_stpncpy(char *dst, const char *src, size_t n)
++{
++	while (n > 0 && *src != '\0') {
++		*dst++ = *src++;
++		n--;
++	}
++	if (n > 0) *dst = '\0';
++	return dst;
++}
++#define stpncpy qnx_stpncpy
++#endif
+ /* mode flags for set_curjob */
+ #define SHOW_PGID	0x01	/* only show pgid - for jobs -p */
+ #define SHOW_PID	0x04	/* include process pid */

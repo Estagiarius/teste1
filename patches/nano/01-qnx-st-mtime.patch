@@ -14,7 +14,8 @@
  	}
  
  	/* The spell checker needs the screen, so exit from curses mode. */
-@@ -2184,8 +2189,13 @@
+@@ -2184,8 +2189,12 @@
+ 
  	/* When the temporary file wasn't touched, say so and leave. */
  	if (timestamp_sec > 0 && stat(tempfile_name, &fileinfo) == 0 &&
 +#ifdef __QNXNTO__

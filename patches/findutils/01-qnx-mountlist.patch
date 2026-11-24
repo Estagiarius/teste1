@@ -1,0 +1,11 @@
+--- a/configure
++++ b/configure
+@@ -47054,7 +47054,7 @@
+   fi
+ 
+   if test -z "$ac_list_mounted_fs"; then
+-    as_fn_error $? "could not determine how to read list of mounted file systems" "$LINENO" 5
++    ac_list_mounted_fs=found # QNX: no Linux mountlist needed "$LINENO" 5
+     # FIXME -- no need to abort building the whole package
+     # Can't build mountlist.c or anything that needs its functions
+   fi

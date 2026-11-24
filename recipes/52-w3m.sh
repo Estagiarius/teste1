@@ -24,8 +24,29 @@ build() {
         --disable-m17n \
         --disable-unicode
 
-    # Compila mktable no host para evitar Exec format error durante a geração de tabelas hash
-    "${HOSTCC}" -O2 -I. -o mktable mktable.c hash.c -lm || true
+    # Compila mktable no host com stub mínimo de gc.h (evita dependência libgc-dev no host e Exec format error)
+    local gc_stub="${BUILD_DIR}/host-gc-stub"
+    mkdir -p "${gc_stub}"
+    cat > "${gc_stub}/gc.h" <<'GCEOF'
+#ifndef HOST_GC_STUB_H
+#define HOST_GC_STUB_H
+#include <stdlib.h>
+#include <string.h>
+static inline void GC_init(void) {}
+static inline void *GC_malloc(size_t n) { return calloc(1, n); }
+static inline void *GC_malloc_atomic(size_t n) { return malloc(n); }
+static inline void *GC_realloc(void *p, size_t n) { return realloc(p, n); }
+static inline void GC_free(void *p) { free(p); }
+#define GC_INIT() GC_init()
+#define GC_MALLOC(n) GC_malloc((n))
+#define GC_MALLOC_ATOMIC(n) GC_malloc_atomic((n))
+#define GC_REALLOC(p, n) GC_realloc((p), (n))
+#define GC_FREE(p) GC_free((p))
+#define GC_STRDUP(s) strdup((s))
+#endif
+GCEOF
+    "${HOSTCC}" -O2 -I. -I"${gc_stub}" -o "${BUILD_DIR}/host-mktable" mktable.c hash.c Str.c myctype.c -lm
+    sed -i "s|\./mktable|${BUILD_DIR}/host-mktable|g" Makefile
     make -j"${JOBS}" HOSTCC="${HOSTCC}"
 }
 

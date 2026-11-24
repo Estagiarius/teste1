@@ -1,0 +1,9 @@
+--- a/lib/boot-time-aux.h
++++ b/lib/boot-time-aux.h
+@@ -1,3 +1,6 @@
++#ifdef __QNXNTO__
++#include <sys/time.h>
++#endif
+ /* Auxiliary functions for determining the time when the machine last booted.
+    Copyright (C) 2023-2024 Free Software Foundation, Inc.
+ 

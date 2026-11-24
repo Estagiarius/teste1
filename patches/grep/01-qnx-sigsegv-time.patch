@@ -1,0 +1,12 @@
+--- a/lib/sigsegv.c
++++ b/lib/sigsegv.c
+@@ -28,6 +28,9 @@
+ #include <stdlib.h>
+ #include <signal.h>
+ #if HAVE_GETRLIMIT
++#ifdef __QNXNTO__
++# include <sys/time.h>
++#endif
+ # include <sys/resource.h> /* declares struct rlimit */
+ #endif
+ 

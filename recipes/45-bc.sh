@@ -38,10 +38,23 @@ PYSH
         make -C bc libmath.h
     )
 
-    # 2. Copia libmath.h gerado e faz build cross-compile
+    # 2. Preserva libmath.h gerado pelo fbc do host e substitui a regra de geração no Makefile.in
+    cp -f "${host_build}/bc/libmath.h" "${SRC_DIR}/bc/libmath.h.prebuilt"
     cp -f "${host_build}/bc/libmath.h" "${SRC_DIR}/bc/libmath.h"
-    # Evita que o Makefile tente regenerar libmath.h executando ./fbc ARM
-    sed -i 's|\./fbc -c \$(srcdir)/libmath\.b|true|g; s|\$(srcdir)/fix-libmath_h|true|g; s|\./fix-libmath_h|true|g' "${SRC_DIR}/bc/Makefile.in"
+    python3 - "${SRC_DIR}/bc/Makefile.in" <<'PYEOF'
+import re, sys
+path = sys.argv[1]
+with open(path, "r", encoding="utf-8") as fh:
+    txt = fh.read()
+txt = re.sub(
+    r"^libmath\.h:.*?(?=\nsbc\.o:)",
+    "libmath.h: libmath.b\n\tcp -f $(srcdir)/libmath.h.prebuilt libmath.h",
+    txt,
+    flags=re.MULTILINE | re.DOTALL,
+)
+with open(path, "w", encoding="utf-8") as fh:
+    fh.write(txt)
+PYEOF
 
     LIBS="-lreadline -lncursesw -lsocket" \
     ./configure \

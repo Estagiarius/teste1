@@ -1,0 +1,14 @@
+--- a/Modules/posixmodule.c
++++ b/Modules/posixmodule.c
+@@ -10,6 +10,11 @@
+ #define PY_SSIZE_T_CLEAN
+ 
+ #include "Python.h"
++#ifdef __QNXNTO__
++#include <sys/time.h>
++#include <sys/resource.h>
++#include <unix.h>
++#endif
+ 
+ #ifdef __VXWORKS__
+ #  include "pycore_bitutils.h"    // _Py_popcount32()

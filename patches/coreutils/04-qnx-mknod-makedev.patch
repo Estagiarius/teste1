@@ -1,0 +1,14 @@
+--- a/src/mknod.c
++++ b/src/mknod.c
+@@ -243,7 +243,11 @@
+           error (EXIT_FAILURE, 0,
+                  _("invalid minor device number %s"), quote (s_minor));
+ 
++#ifdef __QNXNTO__
++        device = makedev (0, i_major, i_minor);
++#else
+         device = makedev (i_major, i_minor);
++#endif
+ #ifdef NODEV
+         if (device == NODEV)
+           error (EXIT_FAILURE, 0, _("invalid device %s %s"),

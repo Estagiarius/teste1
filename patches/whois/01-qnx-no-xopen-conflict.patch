@@ -1,0 +1,24 @@
+--- a/utils.c
++++ b/utils.c
+@@ -21,7 +21,9 @@
+  */
+ 
+ /* for strdup */
++#ifndef __QNXNTO__
+ #define _XOPEN_SOURCE 500
++#endif
+ 
+ /* System library */
+ #include <stdio.h>
+--- a/mkpasswd.c
++++ b/mkpasswd.c
+@@ -19,7 +19,9 @@
+  */
+ 
+ /* for crypt, snprintf and strcasecmp */
++#ifndef __QNXNTO__
+ #define _XOPEN_SOURCE 500
++#endif
+ #define _BSD_SOURCE 1
+ #define _DEFAULT_SOURCE 1
+ #define __EXTENSIONS__ 1

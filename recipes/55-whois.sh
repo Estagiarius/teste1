@@ -9,15 +9,13 @@ PKG_URL="https://github.com/rfc1036/whois/archive/refs/tags/v5.5.23.tar.gz"
 PKG_SHA256="SKIP"
 
 build() {
-    sed -i '/_XOPEN_SOURCE/d; /_POSIX_C_SOURCE/d' *.c *.h 2>/dev/null || true
-    make version.h || printf '#define VERSION "%s"\n' "${PKG_VER}" > version.h
+    make version.h as_del.h ip_del.h ip6_del.h new_gtlds.h nic_handles.h tld_serv.h servers_charset.h
     make \
         CC="${CC}" \
         CFLAGS="${CFLAGS} -D_QNX_SOURCE" \
         LDFLAGS="${LDFLAGS}" \
+        whois_LDADD="-lsocket" \
         LIBS="-lsocket" \
-        HAVE_LIBIDN2=0 \
-        HAVE_ICONV=0 \
         whois
 }
 
