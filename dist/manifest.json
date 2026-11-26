@@ -2,10 +2,10 @@
   "target": "arm-blackberry-qnx8eabi",
   "prefix": "/accounts/1000/shared/misc/berrycore",
   "bundle": "berrycore-debian-suite-armv7le.zip",
-  "generated_at": "2026-11-24T19:49:03Z",
+  "generated_at": "2026-11-26T13:25:01Z",
   "summary": {
-    "total": 51,
-    "success": 51,
+    "total": 52,
+    "success": 52,
     "blocked": 0,
     "success_rate_pct": 100.0
   },
@@ -1338,6 +1338,27 @@
       "patches": [],
       "error_summary": null,
       "archive": "packages/q5-ux-1.0.0-bb10-armv7le.zip"
+    },
+    {
+      "id": "66",
+      "name": "q5-sheet",
+      "version": "1.0.0",
+      "layer": 5,
+      "status": "SUCCESS",
+      "size_kb": 17,
+      "binaries": [
+        "bin/q5-sheet"
+      ],
+      "libraries": [],
+      "needed": [
+        "libc.so.3",
+        "libm.so.2",
+        "libncursesw.so.6",
+        "libsocket.so.3"
+      ],
+      "patches": [],
+      "error_summary": null,
+      "archive": "packages/q5-sheet-1.0.0-bb10-armv7le.zip"
     }
   ]
 }

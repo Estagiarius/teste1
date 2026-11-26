@@ -1,4 +1,4 @@
-07613e221d18b7f400e6683862d14744af027559e4ef4239e38f8986d512c703  berrycore-debian-suite-armv7le.zip
+2ad6799411d959ae63eb0e92444252d50ea8971102967dd4c6524378cbd54b65  berrycore-debian-suite-armv7le.zip
 3b6e25b3bd00444b473e597bede863a9da21e970c26624d990455be2c491caad  packages/bash-5.2.37-bb10-armv7le.zip
 560b0c620be83302595ab38b210aa2d4e35e6995720bf0b6c80c1cd6f5cbf1c8  packages/bc-1.07.1-bb10-armv7le.zip
 1b9a2cb7bb4e7561a552f1397616dceba3fb919d7387cf92b21836d92bb6bd5e  packages/bdwgc-8.2.8-bb10-armv7le.zip
@@ -32,6 +32,7 @@ d295119c68360c677a342a2962cfdff14d03c5eccff2ae2fd7de8db2ffe80e28  packages/ncurs
 c6ad7a1bd85b8225d5b83e4f3c7e1c31427b7d62f22ea06c92319448bdb0480e  packages/patch-2.7.6-bb10-armv7le.zip
 7cd3229770a39c902d69fd598984667d6a5c6ada7b52a05a83d16bc3555045c9  packages/pcre2-10.49-bb10-armv7le.zip
 629b1fb569dd0ad9a216911bcefb1e5f0e6774aa6c7c737616687d638d6790df  packages/python3-3.12.8-bb10-armv7le.zip
+b6cecf7e2b1563e83ae954c106656dd53d79992621ddb483411fd5224a04e18e  packages/q5-sheet-1.0.0-bb10-armv7le.zip
 3c9030d80f64bcf12ec2ecf81612a97f20dce4d2b6a9c62d93553881158a994f  packages/q5-ux-1.0.0-bb10-armv7le.zip
 45d9d6365bed6431a2e8430e1a5e769456be6faf8f302ec8107e294089d75255  packages/readline-8.2.13-bb10-armv7le.zip
 ae0b1fdb58b06d83ba20282c9d3e9e29039aef7ad5a071d5b0f0c9df33d9f674  packages/rsync-3.5.2-bb10-armv7le.zip

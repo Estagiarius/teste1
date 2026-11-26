@@ -1,10 +1,10 @@
 # Relatório Final de Build — Debian-to-BerryCore (BlackBerry Q5 / QNX Neutrino)
 
-- **Gerado em:** `2026-11-24T19:49:03Z`
+- **Gerado em:** `2026-11-26T13:25:01Z`
 - **Alvo (Target Triple):** `arm-blackberry-qnx8eabi` (`armv7le`, softfp)
 - **Prefixo no Dispositivo (`PREFIX`):** `/accounts/1000/shared/misc/berrycore`
 - **Bundle Consolidado:** `dist/berrycore-debian-suite-armv7le.zip`
-- **Taxa de Sucesso:** **51/51 (100.0%)** | Bloqueados: **0**
+- **Taxa de Sucesso:** **52/52 (100.0%)** | Bloqueados: **0**
 
 ## Pacotes Compilados e Status por Camada
 
@@ -61,6 +61,7 @@
 | `62` | 5 | `ncdu` | `1.21` | **SUCCESS** | 75 | `ncdu` |
 | `64` | 5 | `git` | `2.47.1` | **SUCCESS** | 17726 | `git`, `git-shell`, `scalar`, `git`, `git-daemon`, `git-http-backend` (+6) |
 | `65` | 5 | `q5-ux` | `1.0.0` | **SUCCESS** | 13 | — |
+| `66` | 5 | `q5-sheet` | `1.0.0` | **SUCCESS** | 17 | `q5-sheet` |
 
 ## Patches QNX Versionados (`patches/`)
 
